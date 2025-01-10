@@ -1,0 +1,131 @@
+---
+# These should be in vault, but as this is a demo, we'll just put them here
+netbox_url: "http://netbox:8080"
+netbox_token: a4bd2e9bf74869feb061eba14b090b4811353d9f
+validate_certs: false
+state: present
+
+tenant_groups:
+  - name: ASNAC IT Departments
+    slug: asnac-it-departments
+    description: ASNAC IT Departments
+
+tenants:
+  - name: Networking Team
+    slug: networking-team
+    description: Networking Team
+    tenant_group: asnac-it-departments
+  - name: Systems Team
+    slug: systems-team
+    description: Systems Team
+    tenant_group: asnac-it-departments
+  - name: Infrastructure Team
+    slug: infrastructure-team
+    description: Infrastructure Team
+    tenant_group: asnac-it-departments
+
+regions:
+  - name: APAC
+    slug: apac
+    description: Asia Pacific and China
+  - name: EMEA
+    slug: emea
+    description: Europe, Middle East and Africa
+  - name: AMER
+    slug: amer
+    description: Americas
+
+site_groups:
+  - name: Data Centers
+    slug: data-centers
+    description: Data Centers
+  - name: Branch Offices
+    slug: branch-offices
+    description: Branch Offices
+  - name: Corporate Offices
+    slug: corporate-offices
+    description: Corporate Offices
+  - name: Cloud Providers
+    slug: cloud-providers
+    description: Cloud Providers
+  - name: AWS
+    slug: aws
+    description: Amazon Web Services
+    parent_site_group: cloud-providers
+  - name: Azure
+    slug: azure
+    description: Microsoft Azure
+    parent_site_group: cloud-providers
+
+sites:
+  - name: amer0001
+    slug: amer0001
+    description: Seattle Headquarters
+    region: amer
+    tenant: infrastructure-team
+    site_group: corporate-offices
+  - name: amer0002
+    slug: amer0002
+    description: AWS us-west-2
+    region: amer
+    tenant: infrastructure-team
+    site_group: aws
+  - name: amer0003
+    slug: amer0003
+    description: Equinix New York (NY5)
+    facility: NY5
+    region: amer
+    tenant: infrastructure-team
+    site_group: data-centers
+  - name: emea001
+    slug: emea001
+    description: London Office
+    region: emea
+    tenant: infrastructure-team
+    site_group: branch-offices
+  - name: apac0001
+    slug: apac0001
+    description: Sydney Office
+    region: apac
+    tenant: infrastructure-team
+    site_group: branch-offices
+
+locations:
+  - name: Level 1 Comms Room
+    site: amer0001
+    slug: amer0001-l1-comms
+    description: Level 1 Comms Room
+  - name: Ground Floor Server Room
+    site: amer0001
+    slug: amer0001-ground-server
+    description: Ground Floor Server Room
+
+rack_roles:
+  - name: Compute
+    slug: compute
+    description: Compute Rack
+    color: 00ff00
+  - name: Network
+    slug: network
+    description: Network Rack
+    color: ff0000
+  - name: Storage
+    slug: storage
+    description: Storage Rack
+    color: 0000ff
+  - name: General
+    slug: general
+    description: General Purpose Rack
+    color: ffffff
+
+racks:
+  - name: amer0001-l1-comms-r1
+    description: Level 1 Comms Rack 1
+    site: amer0001
+    location: amer0001-l1-comms
+    rack_role: general
+    facility_id: BDG-01/L1
+    tenant: infrastructure-team
+    type: 4-post cabinet
+    u_height: 42
+

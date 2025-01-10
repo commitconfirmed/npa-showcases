@@ -1,0 +1,26 @@
+# A Basic Netbox lab
+# Note: As netbox is built using docker compose, additional commands are required
+# outside of the clab file. See run.sh for commands.
+name: basic-netbox
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+    # Automation servers
+    serv-ansible:
+      kind: linux
+      image: as-ansible:latest
+      mgmt-ipv4: 172.20.0.10
+      binds:
+        - configs/serv-ansible/inventory:/app/inventory:rw
+        - configs/serv-ansible/playbooks:/app/playbooks:rw
+    serv-nornir:
+      kind: linux
+      image: as-nornir:latest
+      mgmt-ipv4: 172.20.0.11
+      binds:
+        - configs/serv-nornir/inventory:/app/inventory:rw
+        - configs/serv-nornir/jobs:/app/jobs:rw

@@ -1,0 +1,131 @@
+---
+- name: Modify Manufacturer(s)
+  netbox.netbox.netbox_manufacturer:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ manufacturer }}"
+  tags: manufacturers
+  loop: "{{ manufacturers }}"
+  loop_control:
+    loop_var: manufacturer
+    label: "{{ manufacturer['name'] }}"
+
+- name: Modify Device Role(s)
+  netbox.netbox.netbox_device_role:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ device_role }}"
+  tags: device_roles
+  loop: "{{ device_roles }}"
+  loop_control:
+    loop_var: device_role
+    label: "{{ device_role['name'] }}"
+
+# We are going to just manually add the device types and templates due to: 
+# - Lack of support in some Ansible modules
+# - Having to iterate over nested data and also extract data from the parent
+# - This is static data that doesn't change (An EX4400 is always going to be an EX4400)
+# - It's a good segway to doing this using Python and REST API calls
+# An attempt was made below, in the future we may try this again once there is better support
+
+# This one is a bit more complex as it needs to create the device types first
+# and then use a inner loop to create the interface templates for those device types
+#- name: Modify Device Type(s)
+#  netbox.netbox.netbox_device_type:
+#    netbox_url: "{{ netbox_url }}"
+#    netbox_token: "{{ netbox_token }}"
+#    # As this has nested data (i.e. console-ports) we need to manually define the data unfortunately
+#    # Or the API call fails due to unrelated data being passed
+#    data:
+#      model: "{{ device_type['model'] }}"
+#      airflow: "{{ device_type['airflow'] | default(omit) }}"
+#      comments: "{{ device_type['comments'] | default(omit) }}"
+#      is_full_depth: "{{ device_type['is_full_depth'] | default(omit) }}"
+#      manufacturer: "{{ device_type['manufacturer'] | default(omit) }}"
+#      part_number: "{{ device_type['part_number'] | default(omit) }}"
+#      slug: "{{ device_type['slug'] | default(omit) }}"
+#      u_height: "{{ device_type['u_height'] | default(omit) }}"
+#      weight: "{{ device_type['weight'] | default(omit) }}"
+#      weight_unit: "{{ device_type['weight_unit'] | default(omit) }}"
+#  tags: device_types
+#  loop: "{{ device_types }}"
+#  loop_control:
+#    loop_var: device_type
+#    label: "{{ device_type['model'] }}"
+
+#- name: Modify Device Interface Template(s)
+#  netbox.netbox.netbox_device_interface_template:
+#    netbox_url: "{{ netbox_url }}"
+#    netbox_token: "{{ netbox_token }}"
+#    # Tried to use a map function to combine the data but it didn't work, i.e.
+#    # i.e. {{ device_interfaces.1 | map('combine', device_interfaces.0.slug) }}
+#    data:
+#      device_type: "{{ device_interfaces.0.slug }}"
+#      name: "{{ device_interfaces.1.name }}"
+#      type: "{{ device_interfaces.1.type }}"
+#      mgmt_only: "{{ device_interfaces.1.mgmt_only | default(omit) }}"
+#  tags: device_interface_templates
+#  loop: "{{ device_types|subelements('interfaces')}}"
+#  when: device_types['interfaces'] is defined
+#  loop_control:
+#    loop_var: device_interfaces
+#    label: "{{ device_interfaces.0.model}}\t{{ device_interfaces.1.name }}"
+
+#- name: Modify Device Console Port Template(s)
+#  netbox.netbox.netbox_console_port_template:
+#    netbox_url: "{{ netbox_url }}"
+#    netbox_token: "{{ netbox_token }}"
+#    data:
+#      device_type: "{{ device_interfaces.0.slug }}"
+#      name: "{{ device_interfaces.1.name }}"
+#      type: "{{ device_interfaces.1.type }}"
+#  tags: device_interface_templates
+#  loop: "{{ device_types|subelements('console-ports')}}"
+#  when: device_types['console-ports'] is defined
+#  loop_control:
+#    loop_var: device_interfaces
+#    label: "{{ device_interfaces.0.model}}\t{{ device_interfaces.1.name }}"
+
+#- name: Modify Device Power Port Template(s)
+#  netbox.netbox.netbox_power_port_template:
+#    netbox_url: "{{ netbox_url }}"
+#    netbox_token: "{{ netbox_token }}"
+#    data:
+#      device_type: "{{ device_interfaces.0.slug }}"
+#      name: "{{ device_interfaces.1.name }}"
+#      type: "{{ device_interfaces.1.type }}"
+#      allocated_draw: "{{ device_interfaces.1.allocated_draw | default(omit) }}"
+#  tags: device_interface_templates
+#  loop: "{{ device_types|subelements('power-ports')}}"
+#  when: device_types['power-ports'] is defined
+#  loop_control:
+#    loop_var: device_interfaces
+#    label: "{{ device_interfaces.0.model}}\t{{ device_interfaces.1.name }}"
+
+# It looks like Module Bay Templates are not supported in the Ansible module yet
+# https://github.com/netbox-community/ansible_modules/issues/1340
+#- name: Modify Device Module Bay Template(s)
+#  netbox.netbox.netbox_device_module_bay_template:
+#    netbox_url: "{{ netbox_url }}"
+#    netbox_token: "{{ netbox_token }}"
+#    data:
+#      device_type: "{{ device_interfaces.0.slug }}"
+#      name: "{{ device_interfaces.1.name }}"
+#      position: "{{ device_interfaces.1.position | default(omit) }}"
+#  tags: device_interface_templates
+#  loop: "{{ device_types|subelements('module-bays')}}"
+#  when: device_types['module-bays'] is defined
+#  loop_control:
+#    loop_var: device_interfaces
+#    label: "{{ device_interfaces.0.model}}\t{{ device_interfaces.1.name }}"
+
+#- name: Modify Device(s)
+#  netbox.netbox.netbox_device:
+#    netbox_url: "{{ netbox_url }}"
+#    netbox_token: "{{ netbox_token }}"
+#    data: "{{ device }}"
+#  tags: devices
+#  loop: "{{ devices }}"
+#  loop_control:
+#    loop_var: device
+#    label: "{{ device['name'] }}"

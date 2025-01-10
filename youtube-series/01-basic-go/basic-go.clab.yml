@@ -1,0 +1,26 @@
+# A Basic Go lab
+name: basic-go
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+    # Go Server
+    serv-go:
+      kind: linux
+      image: lab-godor:latest
+      mgmt-ipv4: 172.20.0.10
+      binds:
+        - configs/serv-go:/app:rw
+    # SROS Router to demonstrate the CLI experience
+    #router-srl1:
+    #  kind: nokia_srlinux
+    #  image: ghcr.io/nokia/srlinux:latest
+    #  mgmt-ipv4: 172.20.0.100
+    ## Arista Router to demonstrate the CLI experience
+    #router-eos1:
+    #  kind: ceos
+    #  image: ceos:4.28.10.1M
+    #  mgmt-ipv4: 172.20.0.200

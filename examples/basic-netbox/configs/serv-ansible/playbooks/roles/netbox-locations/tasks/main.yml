@@ -1,0 +1,94 @@
+---
+# Populate Netbox Location with data from vars, use tags to control what is created if required
+
+- name: Modify Tenant Group(s)
+  netbox.netbox.netbox_tenant_group:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ tenant_group }}"
+  tags: tenant_groups
+  loop: "{{ tenant_groups }}"
+  loop_control:
+    loop_var: tenant_group
+    label: "{{ tenant_group['name'] }}" 
+
+- name: Modify Tenant(s)
+  netbox.netbox.netbox_tenant:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ tenant }}"
+  tags: tenants
+  loop: "{{ tenants }}"
+  loop_control:
+    loop_var: tenant
+    label: "{{ tenant['name'] }}"
+
+- name: Modify Region(s)
+  netbox.netbox.netbox_region:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ region }}"
+  tags: regions
+  loop: "{{ regions }}"
+  loop_control:
+    loop_var: region
+    label: "{{ region['name'] }}"
+
+- name: Modify Site Group(s)
+  netbox.netbox.netbox_site_group:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ site_group }}"
+  tags: site_groups
+  loop: "{{ site_groups }}"
+  loop_control:
+    loop_var: site_group
+    label: "{{ site_group['name'] }}"
+
+- name: Modify Site(s)
+  netbox.netbox.netbox_site:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ site }}"
+  tags: sites
+  loop: "{{ sites }}"
+  loop_control:
+    loop_var: site
+    label: "{{ site['name'] }}"
+
+- name: Modify Location(s)
+  netbox.netbox.netbox_location:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ location }}"
+  tags: locations
+  loop: "{{ locations }}"
+  loop_control:
+    loop_var: location
+    label: "{{ location['name'] }}"
+
+- name: Modify Rack Role(s)
+  netbox.netbox.netbox_rack_role:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ rack_role }}"
+  tags: rack_roles
+  loop: "{{ rack_roles }}"
+  loop_control:
+    loop_var: rack_role
+    label: "{{ rack_role['name'] }}"
+
+- name: Modify Rack(s)
+  netbox.netbox.netbox_rack:
+    netbox_url: "{{ netbox_url }}"
+    netbox_token: "{{ netbox_token }}"
+    data: "{{ rack }}"
+  tags: racks
+  loop: "{{ racks }}"
+  loop_control:
+    loop_var: rack
+    label: "{{ rack['name'] }}"
+
+
+
+  

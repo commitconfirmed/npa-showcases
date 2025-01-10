@@ -1,0 +1,16 @@
+---
+- name: Add Data to Netbox
+  connection: local
+  hosts: localhost
+  gather_facts: False
+  roles:
+    - role: netbox-locations
+    # Ansible does not support Module Bay Templates yet, so we will need to manually add them
+    # Or we can use the Netbox GUI/API to add them
+    - role: netbox-devices
+      tags: 
+        - manufacturers
+        - device_roles
+#    - role: netbox-connections
+#    - role: netbox-ipam
+

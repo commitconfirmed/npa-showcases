@@ -1,0 +1,14 @@
+services:
+  netbox:
+    ports:
+    - 8000:8080
+    environment:
+      #DEBUG: true
+      SKIP_SUPERUSER: "false"
+      SUPERUSER_API_TOKEN: "a4bd2e9bf74869feb061eba14b090b4811353d9f"
+      SUPERUSER_EMAIL: "admin@admin.com"
+      SUPERUSER_NAME: "admin"
+      SUPERUSER_PASSWORD: "admin"
+      # The below Required for codespaces
+      ALLOWED_HOST: "*"
+      CSRF_TRUSTED_ORIGINS: "https://localhost:8000"

@@ -1,0 +1,6 @@
+# Backup CLAB Files
+*.bak
+
+# Directory created by CLAB during deploys 
+examples/*/clab-*
+youtube-series/*/clab-*
