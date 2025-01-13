@@ -17,6 +17,9 @@ vim \
 curl \
 openssh-server \
 sudo \
+# Cleanup
+&& apt-get autoremove -y \
+&& apt-get clean -y \
 && rm -rf /var/lib/apt/lists/*
 
 # Download Go

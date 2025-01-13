@@ -1,7 +1,8 @@
 #!/bin/bash
 #
-# Initial setup script for the ASNAC project. This script will build the containers
-# in the containers directory so they can be used by Containerlab.
+# Initial setup script for the project. This script will build the containers
+# in the containers directory so they can be used by Containerlab. You can run
+# this script again to rebuild the containers if you make changes to them.
 
 set -e
 echo "Building all containers"
