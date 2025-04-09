@@ -2,7 +2,7 @@
 
 A lab going over the basics of netbox and some basic ways you can interact with it to import data and how you can hook Ansible & Nornir into it.
 
-> **Note**: Due to the nature/conflict of docker compose and containerlab, the Netbox server cannot have a static IP set in the Containerlab management network. Luckily compose will add a dns entry under netbox for us
+> **Note**: Due to the nature/conflict of docker compose and containerlab, the Netbox server cannot have a static IP set in the Containerlab management network. Luckily compose will add a dns entry with the hostname `netbox` for us
 
 - [Basic Netbox](#basic-netbox)
   - [Setup](#setup)

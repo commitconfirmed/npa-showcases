@@ -1,0 +1,26 @@
+# Import containerlab containers SSH fingerprints into known_hosts
+# You can also just change your ssh settings to ignore unknown hosts 
+# but it's also a nice way to initially check your lab is working
+# 
+# You will always need to run this first before any other playbook
+---
+- name: Extract SSH keys from all hosts in your inventory and Import them
+  hosts: localhost
+  connection: local
+
+  vars:
+    ssh_hosts: "{{groups['all'] | map('extract', hostvars, ['ansible_host'])}}"
+
+  tasks:
+  - name: Get SSH Key
+    shell: "ssh-keyscan -H {{item}}"
+    with_items: "{{ssh_hosts}}"
+    register: ssh_key
+    ignore_errors: True
+
+  - name: Import Keys into known_hosts
+    known_hosts:
+      name: "{{ item.item }}"
+      key: "{{ item.stdout }}"
+      path: /app/.ssh/known_hosts
+    with_items: "{{ ssh_key.results }}"

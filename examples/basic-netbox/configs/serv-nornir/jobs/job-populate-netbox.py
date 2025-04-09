@@ -61,7 +61,7 @@ def main():
                 # Our value is a list of dictionaries, but we need to add a decive_type inner dictionary
                 # to each item in the list as well or we get the error:
                 # "Related objects must be referenced by numeric ID or by dictionary of attributes."
-                # and in this instace we don't want to do a separate GET call just to get the ID
+                # and in this instance we don't want to do a separate GET call just to get the ID
                 for port in value:
                     port["device_type"] = {}
                     port["device_type"]["model"] = device["model"]

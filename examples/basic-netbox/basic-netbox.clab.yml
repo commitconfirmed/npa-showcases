@@ -9,7 +9,7 @@ mgmt:
 
 topology:
   nodes:
-    # Automation servers
+    # Automation servers  
     serv-ansible:
       kind: linux
       image: as-ansible:latest

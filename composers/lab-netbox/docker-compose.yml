@@ -1,4 +1,4 @@
-# Slightly Modifed from https://github.com/netbox-community/netbox-docker/
+# Slightly Modified from https://github.com/netbox-community/netbox-docker/
 # To work with our containerlab created network and our config
 services:
   netbox: &netbox

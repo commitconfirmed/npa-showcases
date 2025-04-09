@@ -1,9 +1,13 @@
 FROM ubuntu:latest
 
+# Prompt avoidance
+ENV DEBIAN_FRONTEND=noninteractive
+ENV GO_VERSION=1.24.2
+
 USER root
 WORKDIR /root
 
-# Some standard Ubuntu packages
+# # Some standard Ubuntu packages for network troubleshooting
 RUN apt-get update -y && apt-get install -y \
 iproute2 \
 tcpdump \
@@ -11,12 +15,10 @@ iputils-ping \
 curl \
 && rm -rf /var/lib/apt/lists/*
 
-# Download Go (could use curl to do this?)
-RUN curl -OL https://golang.org/dl/go1.23.4.linux-amd64.tar.gz
-
-# Install Go
-RUN tar -C /usr/local -xzf go.1.23.4.linux-amd64.tar.gz
-RUN rm go1.23.4.linux-amd64.tar.gz
+# Download & Install Go 
+RUN curl -OL https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go.${GO_VERSION}.linux-amd64.tar.gz
+RUN rm go${GO_VERSION}.linux-amd64.tar.gz
 
 # Set Go environment variables
 ENV PATH $PATH:/usr/local/go/bin

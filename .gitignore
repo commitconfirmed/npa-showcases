@@ -4,3 +4,8 @@
 # Directory created by CLAB during deploys 
 examples/*/clab-*
 youtube-series/*/clab-*
+
+# Copyright files / images that you don't want to share
+# i.e. the Arista cEOS docker image
+images/**
+!images/README.md

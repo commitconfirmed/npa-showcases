@@ -1,2 +1,2 @@
-# lab-ra-go
+# lab-go-dor
 Network Automation Labs using golang
