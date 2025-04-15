@@ -1,0 +1,7 @@
+# Configure the lab environment
+---
+- hosts: juniper_crpd
+  gather_facts: false
+  roles:
+    - role: junos_device
+      tags: [ routers ] 
