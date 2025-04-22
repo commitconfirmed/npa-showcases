@@ -8,20 +8,21 @@ if [[ -z $1 ]]; then
 else
     case $1 in
         build)
-        echo "Nothing to build, you will need to install cRPD manually"
+        echo "Note: you will need to download and build cRPD manually"
         cd ../../containers/
         ./build.sh lab-ansible
         ;;
         run)
         echo "Running the lab"
-        sudo containerlab deploy -t ./intermediate-junos-sr.clab.yml
+        sudo containerlab deploy -t ./lab.clab.yml
         echo "Done. Sleeping for 5 seconds to allow the containers to fully boot"
         sleep 5
-        sudo docker exec -tu ansible -w /app "clab-intermediate-junos-sr-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
+        sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
+        sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml playbooks/pb-cfg-lab.yml
         ;;
         cleanup)
         echo "Cleaning up the lab"
-        sudo containerlab destroy -t ./intermediate-junos-sr.clab.yml
+        sudo containerlab destroy -t ./lab.clab.yml
         ;;
         *)
         echo $usage

@@ -1,0 +1,21 @@
+# Configure the lab environment
+---
+- hosts: juniper_crpd
+  gather_facts: false
+  tasks:
+    - name: Device configuration to be applied
+      ansible.builtin.debug:
+        msg: "{{ lookup('template', inventory_hostname ~ '.j2') }}"
+    - name: Generate configuration from template
+      ansible.builtin.template:
+        src: "{{ inventory_hostname }}.j2"
+        dest: "/var/tmp/{{ inventory_hostname }}.conf"
+        mode: '0644'
+    - name: Apply configuration to Juniper device
+      juniper.device.config:
+        load: "set"
+        src: "/var/tmp/{{ inventory_hostname }}.conf"
+      register: response
+    - name: "Print the response"
+      ansible.builtin.debug:
+        var: response

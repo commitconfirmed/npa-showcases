@@ -20,7 +20,11 @@ sudo \
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN pip3 install --upgrade \
 ansible \
-pynetbox
+pynetbox \
+looseversion \
+jxmlease \
+xmltodict \
+junos-eznc
 
 # Configure an ansible user with sudo access for ansible playbook execution
 RUN groupadd -r ansible && useradd -rm -d /app -s /bin/bash -g ansible -G sudo -u 666 ansible && \
@@ -38,6 +42,9 @@ touch ~/.ssh/known_hosts
 
 WORKDIR /app
 COPY --chown=ansible:ansible app /app
+
+# Install Ansible collections
+RUN ansible-galaxy collection install juniper.device
 
 EXPOSE 22
 

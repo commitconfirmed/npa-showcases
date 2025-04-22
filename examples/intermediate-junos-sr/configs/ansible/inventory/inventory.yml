@@ -7,11 +7,19 @@ all:
   children:
     juniper_crpd:
       vars:
-        # ansible_connection: set ansible_connection variable if required
+        ansible_connection: local
         ansible_user: root
         ansible_password: clab123
       hosts:
-        clab-intermediate-junos-sr-crpd1:
-          ansible_host: 172.20.0.10
-        clab-intermediate-junos-sr-crpd2:
+        clab-lab-crpd1:
           ansible_host: 172.20.0.11
+        clab-lab-crpd2:
+          ansible_host: 172.20.0.12
+        clab-lab-crpd4:
+          ansible_host: 172.20.0.14
+        clab-lab-crpd5:
+          ansible_host: 172.20.0.15
+    linux:
+      hosts:
+        clab-lab-ansible:
+          ansible_host: 172.20.0.100

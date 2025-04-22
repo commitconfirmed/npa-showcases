@@ -1,0 +1,60 @@
+# An Intermediate Juniper SR Lab
+name: lab
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+    # cRPD devices  
+    crpd1:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.11
+      exec:
+        - "ip addr add 10.0.0.0/31 dev eth1"
+        - "ip addr add 10.0.0.2/31 dev eth2"
+        - "ip addr add 192.168.0.1 dev lo"
+        - "ip addr add fec0:0:0:1111::1/128 dev lo"
+    crpd2:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.12
+      exec:
+        - "ip addr add 10.0.0.1/31 dev eth1"
+        - "ip addr add 10.0.0.4/31 dev eth2"
+        - "ip addr add 192.168.0.2 dev lo"
+        - "ip addr add fec0:0:0:1111::2/128 dev lo"
+    crpd4:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.14
+      exec:
+        - "ip addr add 10.0.0.6/31 dev eth1"
+        - "ip addr add 10.0.0.3/31 dev eth2"
+        - "ip addr add 192.168.0.4 dev lo"
+        - "ip addr add fec0:0:0:1111::4/128 dev lo"
+    crpd5:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.15
+      exec:
+        - "ip addr add 10.0.0.7/31 dev eth1"
+        - "ip addr add 10.0.0.5/31 dev eth2"
+        - "ip addr add 192.168.0.5 dev lo"
+        - "ip addr add fec0:0:0:1111::5/128 dev lo"
+    # Ansible
+    ansible:
+      kind: linux
+      image: lab-ansible:latest
+      mgmt-ipv4: 172.20.0.100
+      binds:
+        - configs/ansible/inventory:/app/inventory:rw
+        - configs/ansible/playbooks:/app/playbooks:rw
+
+  links:
+    - endpoints: ["crpd1:eth1", "crpd2:eth1"]
+    - endpoints: ["crpd1:eth2", "crpd4:eth2"]
+    - endpoints: ["crpd2:eth2", "crpd5:eth2"]
+    - endpoints: ["crpd4:eth1", "crpd5:eth1"]

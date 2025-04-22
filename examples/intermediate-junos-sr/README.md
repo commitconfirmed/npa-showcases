@@ -15,7 +15,9 @@ Needs a free trial or licensed cRPD docker image
 
 - Run `manage.sh build` to build the relevant container(s) (not needed if you have run `setup.sh`)
 - Run `manage.sh run` to run the lab
-- Run `manage.sh cleanup` to destroy the lab or simply execute `sudo containerlab destroy -t ./intermediate-junos-sr.clab.yml`
+- Run `manage.sh stop` to destroy the lab or simply execute `sudo containerlab destroy -t ./lab.clab.yml`
+
+> Note: This lab requires the Juniper cRPD image downloaded and installed manually
 
 ## Walkthrough
 

@@ -1,0 +1,6 @@
+interfaces:
+  - eth1:
+      description: "Connected to clab-lab-crpd2 eth1"
+      family:
+        inet:
+          address: 10.0.0.1/24
