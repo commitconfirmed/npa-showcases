@@ -15,10 +15,20 @@ all:
           ansible_host: 172.20.0.11
         clab-lab-crpd2:
           ansible_host: 172.20.0.12
+        clab-lab-crpd3:
+          ansible_host: 172.20.0.13
         clab-lab-crpd4:
           ansible_host: 172.20.0.14
         clab-lab-crpd5:
           ansible_host: 172.20.0.15
+        clab-lab-crpd6:
+          ansible_host: 172.20.0.16
+        clab-lab-crpd7:
+          ansible_host: 172.20.0.17
+        clab-lab-crpd8:
+          ansible_host: 172.20.0.18
+        clab-lab-crpd9:
+          ansible_host: 172.20.0.19
     linux:
       hosts:
         clab-lab-ansible:

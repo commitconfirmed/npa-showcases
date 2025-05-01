@@ -15,6 +15,7 @@ topology:
       exec:
         - "ip addr add 10.0.0.0/31 dev eth1"
         - "ip addr add 10.0.0.2/31 dev eth2"
+        - "ip addr add 10.0.0.22/31 dev eth3"
         - "ip addr add 192.168.0.1 dev lo"
         - "ip addr add fec0:0:0:1111::1/128 dev lo"
     crpd2:
@@ -26,6 +27,15 @@ topology:
         - "ip addr add 10.0.0.4/31 dev eth2"
         - "ip addr add 192.168.0.2 dev lo"
         - "ip addr add fec0:0:0:1111::2/128 dev lo"
+    crpd3:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.13
+      exec:
+        - "ip addr add 10.0.0.23/31 dev eth3"
+        - "ip addr add 10.0.0.24/31 dev eth5"
+        - "ip addr add 192.168.0.3 dev lo"
+        - "ip addr add fec0:0:0:1111::3/128 dev lo"
     crpd4:
       kind: juniper_crpd
       image: crpd:23.2R1.13
@@ -42,8 +52,53 @@ topology:
       exec:
         - "ip addr add 10.0.0.7/31 dev eth1"
         - "ip addr add 10.0.0.5/31 dev eth2"
+        - "ip addr add 10.0.0.12/31 dev eth3"
+        # Figure out bonding
+        #- "ip addr add 10.0.0.12/31 dev eth4"
         - "ip addr add 192.168.0.5 dev lo"
         - "ip addr add fec0:0:0:1111::5/128 dev lo"
+    crpd6:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.16
+      exec:
+        - "ip addr add 10.0.0.14/31 dev eth1"
+        - "ip addr add 10.0.0.16/31 dev eth2"
+        - "ip addr add 10.0.0.9/31 dev eth3"
+        - "ip addr add 10.0.0.11/31 dev eth4"
+        - "ip addr add 10.0.0.25/31 dev eth5"
+        - "ip addr add 192.168.0.6 dev lo"
+        - "ip addr add fec0:0:0:1111::6/128 dev lo"
+    crpd7:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.17
+      exec:
+        - "ip addr add 10.0.0.15/31 dev eth1"
+        - "ip addr add 10.0.0.18/31 dev eth2"
+        - "ip addr add 10.0.0.13/31 dev eth3"
+        # Other bond
+        #- "ip addr add 10.0.0.13/31 dev eth4"
+        - "ip addr add 192.168.0.7 dev lo"
+        - "ip addr add fec0:0:0:1111::7/128 dev lo"
+    crpd8:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.18
+      exec:
+        - "ip addr add 10.0.0.20/31 dev eth1"
+        - "ip addr add 10.0.0.17/31 dev eth2"
+        - "ip addr add 192.168.0.8 dev lo"
+        - "ip addr add fec0:0:0:1111::8/128 dev lo"
+    crpd9:
+      kind: juniper_crpd
+      image: crpd:23.2R1.13
+      mgmt-ipv4: 172.20.0.19
+      exec:
+        - "ip addr add 10.0.0.21/31 dev eth1"
+        - "ip addr add 10.0.0.19/31 dev eth2"
+        - "ip addr add 192.168.0.9 dev lo"
+        - "ip addr add fec0:0:0:1111::9/128 dev lo"
     # Ansible
     ansible:
       kind: linux
@@ -56,5 +111,17 @@ topology:
   links:
     - endpoints: ["crpd1:eth1", "crpd2:eth1"]
     - endpoints: ["crpd1:eth2", "crpd4:eth2"]
+    - endpoints: ["crpd1:eth3", "crpd3:eth3"]
     - endpoints: ["crpd2:eth2", "crpd5:eth2"]
+    - endpoints: ["crpd3:eth5", "crpd6:eth5"]
     - endpoints: ["crpd4:eth1", "crpd5:eth1"]
+    - endpoints: ["crpd4:eth3", "crpd6:eth3"]
+    - endpoints: ["crpd4:eth4", "crpd6:eth4"]
+    - endpoints: ["crpd5:eth3", "crpd7:eth3"]
+    - endpoints: ["crpd5:eth4", "crpd7:eth4"]
+    - endpoints: ["crpd6:eth1", "crpd7:eth1"]
+    - endpoints: ["crpd6:eth2", "crpd8:eth2"]
+    - endpoints: ["crpd7:eth2", "crpd9:eth2"]
+    - endpoints: ["crpd8:eth1", "crpd9:eth1"]
+
+    

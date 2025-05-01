@@ -1,8 +1,8 @@
-set system host-name crpd4
+set system host-name crpd3
 set system services ssh sftp-server
-set interfaces lo0 unit 0 family iso address 49.0001.0100.1001.0004.00
+set interfaces lo0 unit 0 family iso address 49.0001.0100.1001.0003.00
 set interfaces lo0 unit 0 family inet address 192.168.0.99/32
-set routing-options router-id 192.168.0.4
+set routing-options router-id 192.168.0.3
 set routing-options autonomous-system 65001
 set protocols isis interface all point-to-point
 set protocols isis interface all level 2 metric 1000
@@ -13,8 +13,8 @@ set protocols isis level 2 wide-metrics-only
 set protocols isis source-packet-routing
 set protocols isis source-packet-routing srgb start-label 1000
 set protocols isis source-packet-routing srgb index-range 9000
-set protocols isis source-packet-routing node-segment ipv4-index 404
-set protocols isis source-packet-routing node-segment ipv6-index 604
+set protocols isis source-packet-routing node-segment ipv4-index 403
+set protocols isis source-packet-routing node-segment ipv6-index 603
 set protocols isis export ISIS-EXPORT
 set protocols mpls interface all
 set policy-options policy-statement ISIS-EXPORT term ANYCAST from protocol direct
@@ -22,12 +22,3 @@ set policy-options policy-statement ISIS-EXPORT term ANYCAST from interface lo0.
 set policy-options policy-statement ISIS-EXPORT term ANYCAST from route-filter 192.168.0.99/32 exact
 set policy-options policy-statement ISIS-EXPORT term ANYCAST then prefix-segment index 499
 set policy-options policy-statement ISIS-EXPORT term ANYCAST then accept
-set protocols bgp group ibgp type internal
-set protocols bgp group ibgp local-address 192.168.0.4
-set protocols bgp group ibgp family inet unicast
-set protocols bgp group ibgp family inet6 unicast
-set protocols bgp group ibgp cluster 192.168.0.4
-set protocols bgp group ibgp neighbor 192.168.0.1
-set protocols bgp group ibgp neighbor 192.168.0.2
-set protocols bgp group ibgp neighbor 192.168.0.8
-set protocols bgp group ibgp neighbor 192.168.0.9
