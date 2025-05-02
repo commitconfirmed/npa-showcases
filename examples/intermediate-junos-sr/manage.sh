@@ -1,16 +1,18 @@
 #!/bin/bash
 #
-# Manage the lab
-usage="Usage: $(basename "$0") [build|run|cleanup] \n 
+# Basic clab management script
+usage="Usage: $(basename "$0") [build|run|stop] \n 
 Example to run this lab - ./$(basename "$0") run"
 if [[ -z $1 ]]; then
   echo $usage
 else
+    current_dir=$(pwd)
     case $1 in
         build)
-        echo "Note: you will need to download and build cRPD manually"
         cd ../../containers/
         ./build.sh lab-ansible
+        cd $current_dir
+        echo "Note: you will need to download and build cRPD manually for this lab!"
         ;;
         run)
         echo "Running the lab"
@@ -20,8 +22,8 @@ else
         sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
         sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml playbooks/pb-cfg-lab.yml
         ;;
-        cleanup)
-        echo "Cleaning up the lab"
+        stop)
+        echo "Stopping & cleaning up the lab"
         sudo containerlab destroy -t ./lab.clab.yml
         ;;
         *)

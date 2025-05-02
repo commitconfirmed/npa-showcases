@@ -10,7 +10,7 @@ topology:
     # cRPD devices  
     crpd1:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.11
       exec:
         - "ip addr add 10.0.0.0/31 dev eth1"
@@ -20,7 +20,7 @@ topology:
         - "ip addr add fec0:0:0:1111::1/128 dev lo"
     crpd2:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.12
       exec:
         - "ip addr add 10.0.0.1/31 dev eth1"
@@ -29,7 +29,7 @@ topology:
         - "ip addr add fec0:0:0:1111::2/128 dev lo"
     crpd3:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.13
       exec:
         - "ip addr add 10.0.0.23/31 dev eth3"
@@ -38,7 +38,7 @@ topology:
         - "ip addr add fec0:0:0:1111::3/128 dev lo"
     crpd4:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.14
       exec:
         - "ip addr add 10.0.0.6/31 dev eth1"
@@ -47,7 +47,7 @@ topology:
         - "ip addr add fec0:0:0:1111::4/128 dev lo"
     crpd5:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.15
       exec:
         - "ip addr add 10.0.0.7/31 dev eth1"
@@ -59,7 +59,7 @@ topology:
         - "ip addr add fec0:0:0:1111::5/128 dev lo"
     crpd6:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.16
       exec:
         - "ip addr add 10.0.0.14/31 dev eth1"
@@ -71,7 +71,7 @@ topology:
         - "ip addr add fec0:0:0:1111::6/128 dev lo"
     crpd7:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.17
       exec:
         - "ip addr add 10.0.0.15/31 dev eth1"
@@ -83,7 +83,7 @@ topology:
         - "ip addr add fec0:0:0:1111::7/128 dev lo"
     crpd8:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.18
       exec:
         - "ip addr add 10.0.0.20/31 dev eth1"
@@ -92,7 +92,7 @@ topology:
         - "ip addr add fec0:0:0:1111::8/128 dev lo"
     crpd9:
       kind: juniper_crpd
-      image: crpd:23.2R1.13
+      image: crpd:latest
       mgmt-ipv4: 172.20.0.19
       exec:
         - "ip addr add 10.0.0.21/31 dev eth1"

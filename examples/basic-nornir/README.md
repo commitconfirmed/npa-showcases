@@ -1,20 +1,27 @@
 # Basic Nornir
 
-A lab with a Nornir server and some basic examples for interacting with Network devices. 
+A lab with a Nornir server and some basic examples for interacting with Juniper, Nokia & Arista Network OS's. 
 
 - [Setup](#setup)
   - [Scripts](#scripts)
   - [Manually](#manually)
 - [Walkthrough](#walkthrough)
 
+> Note: The Juniper and Arista cEOS images require downloading separately and an account registered (free)
+
+- https://support.juniper.net/support/downloads/?p=crpdtrial (23.2R1 was used in this example)
+- https://www.arista.com/en/support/software-download (cEOS64-lab-4.32.5.1M.tar.xz was used in this example)
+
 ## Setup
 
 ### Scripts
 
-- Run the build.sh script to build the relevant containers (if you have decided not to run `setup.sh`)
-- Run the run.sh script to run the lab
-- Run the cleanup.sh script to destroy the lab or simply execute `sudo containerlab destroy -t ./basic-nornir.clab.yml`
+- Run `manage.sh build` to build the relevant container(s) (not needed if you have run `setup.sh`)
+- Run `manage.sh run` to run the lab
+- Run `manage.sh stop` to destroy the lab or simply execute `sudo containerlab destroy -t ./lab.clab.yml`
+
+> Note: This lab requires the Juniper cRPD image downloaded and installed manually
 
 ## Walkthrough
 
-See blog post x
+See blog post TBD

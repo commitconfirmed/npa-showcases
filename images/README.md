@@ -1,6 +1,6 @@
 # Images
 
-Put any images/files/etc. in here that you upload into your codespaces or your local install that you want ignored. i.e. the Arista cEOS image, Cisco IOL image, Juniper images, etc.
+Put any images/files/etc. in here that you upload into your codespaces or your local install that you want ignored. i.e. the Arista cEOS image, Cisco IOL image, Juniper cRPD image, etc.
 
 If using your own .gitignore file make sure you ignore this folders contents!
 

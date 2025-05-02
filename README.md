@@ -1,2 +1,42 @@
-# lab-go-dor
-Network Automation Labs using golang
+# NPA-Showcases
+Network Engineering, Programming and Automation showcases
+
+## Setup
+
+### Setup script
+
+### Networking vendor images
+
+As of this time, Juniper and Arista do not have publicly available images on the container registry, so these will need to be manually loaded and then tagged with "latest" so that they can be used in this repos provided examples. This also allows us to easily upgrade (or downgrade) to a new image version without having to modify all the containerlab .clab files.
+
+To download these images, you will need to register an account (free) on the Arista and Juniper websites and then download the NOS container images (URLs below):
+
+- https://support.juniper.net/support/downloads/?p=crpdtrial (23.2R1 was used in this example)
+- https://www.arista.com/en/support/software-download (cEOS64-lab-4.32.5.1M.tar.xz was used in this example)
+
+From here, copy the images into the `./images` folder and load them, and pull the Nokia SRL image from the registry
+
+```bash
+❯ sudo docker image pull ghcr.io/nokia/srlinux
+Using default tag: latest
+--snip--
+❯ sudo docker import images/cEOS64-lab-4.32.5.1M.tar.xz ceos:latest
+sha256:70314310c219009aa903f9ce57f1eef4a72337f21dc3b778179724203c8a31f1
+❯ sudo docker image load -i images/junos-routing-crpd-docker-amd64-23.2R1.13.tgz
+Loaded image: crpd:23.2R1.13
+❯ sudo docker image tag crpd:23.2R1.13 crpd:latest
+```
+
+When you have loaded/imported/pulled all the NOS images and tagged the Juniper CRPD image with latest, you should see something similar to the below when executing `sudo docker image list`
+
+```bash
+❯ sudo docker image list
+REPOSITORY                                  TAG           IMAGE ID       CREATED         SIZE
+ceos                                        latest        70314310c219   3 minutes ago    2.45GB
+ghcr.io/nokia/srlinux                       latest        afd4d4a4aee0   6 weeks ago      2.2GB
+crpd                                        23.2R1.13     0cf5adbda509   22 months ago    498MB
+crpd                                        latest        0cf5adbda509   22 months ago    498MB
+❯ 
+```
+
+
