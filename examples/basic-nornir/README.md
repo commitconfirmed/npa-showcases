@@ -9,8 +9,8 @@ A lab with a Nornir server and some basic examples for interacting with Juniper,
 
 > Note: The Juniper and Arista cEOS images require downloading separately and an account registered (free)
 
-- https://support.juniper.net/support/downloads/?p=crpdtrial (23.2R1 was used in this example)
-- https://www.arista.com/en/support/software-download (cEOS64-lab-4.32.5.1M.tar.xz was used in this example)
+See 
+
 
 ## Setup
 

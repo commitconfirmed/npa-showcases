@@ -1,20 +1,24 @@
 # NPA-Showcases
-Network Engineering, Programming and Automation showcases
+Network Programming & Automation showcases
+
+- [Setup](#setup)
+  - [Script](#setup-script)
+  - [NOS Images](#nos-images)
 
 ## Setup
 
 ### Setup script
 
-### Networking vendor images
+### NOS images
 
-As of this time, Juniper and Arista do not have publicly available images on the container registry, so these will need to be manually loaded and then tagged with "latest" so that they can be used in this repos provided examples. This also allows us to easily upgrade (or downgrade) to a new image version without having to modify all the containerlab .clab files.
+At this time, Juniper and Arista do not have publicly available images on the container registry, so these will need to be manually loaded and then tagged with "latest" so that they can be used in this repos provided examples. This also allows us to easily upgrade (or downgrade) to a new image version without having to modify all the containerlab .clab files.
 
 To download these images, you will need to register an account (free) on the Arista and Juniper websites and then download the NOS container images (URLs below):
 
 - https://support.juniper.net/support/downloads/?p=crpdtrial (23.2R1 was used in this example)
 - https://www.arista.com/en/support/software-download (cEOS64-lab-4.32.5.1M.tar.xz was used in this example)
 
-From here, copy the images into the `./images` folder and load them, and pull the Nokia SRL image from the registry
+From here, copy the images into the `./images` folder and load them, and pull the Nokia SRL image from the registry. Commands are below:
 
 ```bash
 ❯ sudo docker image pull ghcr.io/nokia/srlinux
@@ -39,4 +43,4 @@ crpd                                        latest        0cf5adbda509   22 mont
 ❯ 
 ```
 
-
+> Note: The Evaluation Juniper cRPD image only has limited functionality (OSPF, ISIS & Static Routing). Full functionality requires a license. 
