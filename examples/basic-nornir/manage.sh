@@ -12,7 +12,7 @@ else
         cd ../../containers/
         ./build.sh lab-nornir
         cd $current_dir
-        echo "Note: you will need to download and build cRPD manually for this lab!"
+        echo "Note: This lab needs the Nokia, Arista & Juniper container NOS images to be built manually!"
         ;;
         run)
         echo "Running the lab"

@@ -1,9 +1,15 @@
-# NPA-Showcases
-Network Programming & Automation showcases
+# Network Programmability and Automation showcases
+
+Welcome! 
+
+Here you will find a bunch of ready to go labs based on a wide variety of network topologies and automation concepts using Containerlab as the orchestration engine. 
+
+This is mostly just for my own personal learning and mentoring, but I have made it public in case it does help anyone who may be in the same situation!
 
 - [Setup](#setup)
   - [Script](#setup-script)
   - [NOS Images](#nos-images)
+- [Design Brief](#design-brief)
 
 ## Setup
 
@@ -44,3 +50,19 @@ crpd                                        latest        0cf5adbda509   22 mont
 ```
 
 > Note: The Evaluation Juniper cRPD image only has limited functionality (OSPF, ISIS & Static Routing). Full functionality requires a license. 
+
+#### Codespaces
+
+Additional steps for Codespaces here
+
+## Design Brief
+
+The a brief overview of this repos folder structure below. Each of these folders has its own README.md file with more information if required.
+
+- [.devcontainer](./.devcontainer/): The Dev Container details used in a codespaces deployment
+- [composers](./composers/): Products that require Docker Compose to run (i.e. Netbox)
+- [containers](./containers/): Ready to go container Dockerfiles for a variety of products (Nornir, Ansible, GoBGP, etc.)
+- [examples](./examples/): The Main area of this repo. Contains our NPA showcases
+- [images](./images/): A place to store images that are not publicly available (i.e. Arista cEOS)
+- [learning](./learning/): My scrap area while I'm learning and tinkering with things. Will eventually delete
+- [tools](./tools/): Some basic scripts that are not lab specific (i.e. doing traffic captures)

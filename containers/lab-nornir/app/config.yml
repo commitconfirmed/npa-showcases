@@ -4,10 +4,12 @@
 inventory:
     plugin: SimpleInventory
     options:
-        host_file: "inventory/hosts.yml"
-        group_file: "inventory/groups.yml"
-        defaults_file: "inventory/defaults.yml"
+        host_file: "/app/inventory/hosts.yml"
+        group_file: "/app/inventory/groups.yml"
+        defaults_file: "/app/inventory/defaults.yml"
 runner:
     plugin: threaded
     options:
         num_workers: 10
+logging:
+    log_file: "/app/log/nornir.log"

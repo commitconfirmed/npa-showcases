@@ -23,15 +23,16 @@ nornir_netmiko \
 nornir_rich \
 requests
 
-# Configure an nornir user with sudo access
-RUN groupadd -r nornir && useradd -rm -d /app -s /bin/bash -g nornir -G sudo -u 666 nornir && \
-echo 'nornir:nornir' | chpasswd
+# Configure an admin user with sudo access
+# Note: UID 1000 is used to match containerlabs default UID for bind mounts
+RUN groupadd -r admin && useradd -rm -d /app -s /bin/bash -g admin -G sudo -u 1000 admin && \
+echo 'admin:admin' | chpasswd 
 
 RUN mkdir /var/run/sshd && \
 sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
 echo "export VISIBLE=now" >> /etc/profile
 
-USER nornir
+USER admin
 
 # Create empty known_hosts file for SSH key importing by nornir
 # I don't think this is needed? as netmiko does this for us
@@ -39,7 +40,7 @@ RUN mkdir ~/.ssh && \
 touch ~/.ssh/known_hosts
 
 WORKDIR /app
-COPY --chown=nornir:nornir app /app
+COPY --chown=admin:admin app /app
 
 EXPOSE 22
 
