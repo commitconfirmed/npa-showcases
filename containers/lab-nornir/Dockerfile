@@ -19,8 +19,13 @@ ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN pip3 install --upgrade \
 nornir \
 nornir_utils \
+nornir_napalm \
 nornir_netmiko \
+nornir_netbox \
 nornir_rich \
+nornir_jinja2 \
+nornir-nautobot \
+nornir-scrapli \
 requests
 
 # Configure an admin user with sudo access
