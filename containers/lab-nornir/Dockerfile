@@ -23,7 +23,6 @@ nornir_napalm \
 nornir_netmiko \
 nornir_netbox \
 nornir_rich \
-nornir_jinja2 \
 nornir-nautobot \
 nornir-scrapli \
 requests

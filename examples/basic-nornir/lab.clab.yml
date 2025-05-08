@@ -14,7 +14,8 @@ topology:
       mgmt-ipv4: 172.20.0.100
       binds:
         - configs/lab-nornir/inventory:/app/inventory:rw
-        - configs/lab-nornir/jobs:/app/jobs:rw
+        - configs/lab-nornir/tasks:/app/tasks:rw
+        - configs/lab-nornir/templates:/app/templates:rw
     # cRPD devices  
     crpd1:
       kind: juniper_crpd

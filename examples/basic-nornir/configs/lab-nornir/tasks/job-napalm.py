@@ -9,7 +9,26 @@ from nornir_utils.plugins.functions import print_result
 from nornir_napalm.plugins.tasks import napalm_get
 from nornir_napalm.plugins.tasks import napalm_cli
 from nornir_napalm.plugins.tasks import napalm_configure
+from nornir.core.helpers.jinja_helper import render_from_file
+from nornir.core.helpers.jinja_helper import render_from_string
 from nornir.core.filter import F
+
+def configure_device(task: Task) -> Result:
+    #template = "set system host-name {{ task.host }}-test"
+    #rendered_template = render_from_string(template, task=task)
+    file = f"{task.host}.j2"
+    rendered_template = render_from_file(
+        template=file,
+        path="/app/templates/",
+        task=task)
+    task.run(
+        task=napalm_configure,
+        configuration=rendered_template,
+    )
+    return Result(
+        host=task.host,
+        result=f"Configured {task.host.name} with template: {file}",
+    )
 
 def main():
     nr = InitNornir(config_file="/app/config.yml")
@@ -30,26 +49,11 @@ def main():
         commands=["show version"],
     )
     print_result(result)
-    # Configuration example - Juniper
-    for host in filter_junos.inventory.hosts.keys():
-        print(f"Host: {host}")
-        junos_config = f"set system host-name {host}-test"
-        print(f"Junos config: {junos_config}")
-        result = filter_junos.run(
-            task=napalm_configure,
-            configuration=junos_config,
-        )
-        print_result(result)
-    # Configuration example - Arista
-    for host in filter_eos.inventory.hosts.keys():
-        print(f"Host: {host}")
-        eos_config = f"hostname {host}-test"
-        print(f"EOS config: {eos_config}")
-        result = filter_eos.run(
-            task=napalm_configure,
-            configuration=eos_config,
-        )
-        print_result(result)
+    # Configuration example
+    result = filter.run(
+        task=configure_device,
+    )
+    print_result(result)
 
 if __name__ == "__main__":
     main()
