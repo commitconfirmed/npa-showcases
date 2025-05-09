@@ -1,0 +1,7 @@
+---
+cmh:
+  data:
+    asn: 65000
+    vlans:
+      100: frontend
+      200: backend
