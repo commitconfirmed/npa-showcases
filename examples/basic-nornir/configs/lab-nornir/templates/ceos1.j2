@@ -1,1 +1,4 @@
 hostname {{ task.host }}-test
+banner login
+{{ task.host.motd }}
+EOF

@@ -1,5 +1,5 @@
 ---
-cmh:
+dev:
   data:
     asn: 65000
     vlans:

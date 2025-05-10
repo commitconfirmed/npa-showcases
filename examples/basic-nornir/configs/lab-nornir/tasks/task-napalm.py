@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Basic Nornir script to demonstrate the use of NAPALM to get device facts
+# Basic Nornir script to demonstrate the use of NAPALM to interact with network devices
 # Note: Nokia SR OS devices are not supported by NAPALM it seems (not sure how to load the community plugin)
 # https://napalm.readthedocs.io/en/latest/support/index.html
 
@@ -35,20 +35,23 @@ def main():
     filter = nr.filter(F(platform="junos") | F(platform="eos"))
     filter_junos = nr.filter(F(platform="junos"))
     filter_eos = nr.filter(F(platform="eos"))
+    
     # Get example
-    # Facts doesn't work on crpd:
+    # Note: getters=["facts"] doesn't work on crpd:
     # jnpr.junos.exception.RpcError: RpcError(severity: error, bad_element: None, message: command is not valid on the crpd)
     result = filter.run(
         task=napalm_get,
         getters=["config"],
     )
     print_result(result)
+    
     # CLI example
     result = filter.run(
         task=napalm_cli,
         commands=["show version"],
     )
     print_result(result)
+    
     # Configuration example
     result = filter.run(
         task=configure_device,

@@ -23,8 +23,8 @@ nornir_napalm \
 nornir_netmiko \
 nornir_netbox \
 nornir_rich \
-nornir-nautobot \
-nornir-scrapli \
+nornir_nautobot \
+nornir_scrapli \
 requests
 
 # Configure an admin user with sudo access
@@ -39,7 +39,7 @@ echo "export VISIBLE=now" >> /etc/profile
 USER admin
 
 # Create empty known_hosts file for SSH key importing by nornir
-# I don't think this is needed? as netmiko does this for us
+# I don't believe this is needed? as netmiko does this for us
 RUN mkdir ~/.ssh && \
 touch ~/.ssh/known_hosts
 
