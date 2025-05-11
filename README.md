@@ -4,20 +4,41 @@ Welcome!
 
 Here you will find a bunch of ready to go labs based on a wide variety of network topologies and automation concepts using Containerlab as the orchestration engine. 
 
-This is mostly just for my own personal learning and mentoring, but I have made it public in case it does help anyone who may be in the same situation!
+This is mostly just for my own personal learning and mentoring, but I have made it public in case it helps anyone else who may be in the same situation!
 
 - [Setup](#setup)
+  - [Locally](#locally)
+  - [Codespaces](#codespaces)
   - [Script](#setup-script)
   - [NOS Images](#nos-images)
 - [Design Brief](#design-brief)
+- [Design Detail](#design-detail)
 
 ## Setup
 
+### Locally
+
+If working locally, clone this repo to an area of your choosing. Most labs should work with 8Gb of free Memory to align with the default codespaces specs but it will be called out if more is required.
+
+Next, install Containerlab following the steps at https://containerlab.dev/install/
+
+Verify you're all good to go with `containerlab version`
+
+### Codespaces
+
+Click the button below to launch this repo in a new codespace
+
+Set the "Dev container configuration" to Containerlab to build your codespace with Containerlab installed.
+
+Most labs will work on the 2-core / 8Gb Memory Machine Type unless specifically called out in the labs README.md
+
 ### Setup script
+
+To download and build all the Docker containers used in our labs at once, simply run the `setup.sh` script. Note that this will take quite a while. If you would prefer not to wait each lab [example](./examples/) has a script that you can run to only build that particulars labs Docker containers (`manage.sh build`)
 
 ### NOS images
 
-At this time, Juniper and Arista do not have publicly available images on the container registry, so these will need to be manually loaded and then tagged with "latest" so that they can be used in this repos provided examples. This also allows us to easily upgrade (or downgrade) to a new image version without having to modify all the containerlab .clab files.
+At this time, Juniper and Arista do not have publicly available images on the container registry, so these will need to be manually loaded and then tagged with "latest" so that they can be used in this repos provided examples. This also allows us to easily upgrade (or downgrade) to a new image version without having to modify all the Containerlab .clab files.
 
 To download these images, you will need to register an account (free) on the Arista and Juniper websites and then download the NOS container images (URLs below):
 
@@ -51,7 +72,7 @@ crpd                                        latest        0cf5adbda509   22 mont
 
 > Note: The Evaluation Juniper cRPD image only has limited functionality (OSPF, ISIS & Static Routing). Full functionality requires a license. 
 
-#### Codespaces
+#### NOS images in Codespaces
 
 Additional steps for Codespaces here
 
@@ -64,5 +85,9 @@ The a brief overview of this repos folder structure below. Each of these folders
 - [containers](./containers/): Ready to go container Dockerfiles for a variety of products (Nornir, Ansible, GoBGP, etc.)
 - [examples](./examples/): The Main area of this repo. Contains our NPA showcases
 - [images](./images/): A place to store images that are not publicly available (i.e. Arista cEOS)
-- [learning](./learning/): My scrap area while I'm learning and tinkering with things. Will eventually delete
+- [learning](./learning/): My personal scrap area while I'm learning and tinkering with things. Will eventually delete
 - [tools](./tools/): Some basic scripts that are not lab specific (i.e. doing traffic captures)
+
+## Design Detail
+
+TBD

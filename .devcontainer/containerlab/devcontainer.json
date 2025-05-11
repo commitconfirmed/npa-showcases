@@ -4,5 +4,16 @@
         "cpus": 2,
         "memory": "8gb",
         "storage": "32gb"
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "zsh"
+            },
+            "extensions": [
+                "ms-azuretools.vscode-docker",
+                "vscode.git"
+            ]
+        }
     }
 }

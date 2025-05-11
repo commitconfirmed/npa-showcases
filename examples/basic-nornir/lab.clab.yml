@@ -27,7 +27,7 @@ topology:
         - "ip addr add 192.168.0.1 dev lo"
         - "ip addr add fec0:0:0:1111::1/128 dev lo"
     ceos1:
-      kind: ceos
+      kind: arista_ceos
       image: ceos:latest
       mgmt-ipv4: 172.20.0.12
       env:

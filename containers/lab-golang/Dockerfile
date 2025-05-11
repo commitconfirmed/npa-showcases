@@ -32,7 +32,7 @@ RUN rm go${GO_VERSION}.linux-amd64.tar.gz
 ENV PATH $PATH:/usr/local/go/bin
 
 # Configure an admin user with sudo access
-RUN groupadd -r admin && useradd -rm -d /home/admin -s /bin/bash -g admin -G sudo -u 666 admin && \
+RUN groupadd -r admin && useradd -rm -d /home/admin -s /bin/bash -g admin -G sudo -u 1000 admin && \
 echo 'admin:admin' | chpasswd
 
 RUN mkdir /var/run/sshd && \

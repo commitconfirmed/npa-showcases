@@ -1,0 +1,31 @@
+# A Basic Go lab
+name: lab
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+    # Go Server
+    lab-golang:
+      kind: linux
+      image: lab-golang:latest
+      mgmt-ipv4: 172.20.0.10
+      binds:
+        - configs/lab-golang:/app:rw
+    ## SROS Router to test against
+    #lab-srl1:
+    #  kind: nokia_srlinux
+    #  image: ghcr.io/nokia/srlinux:latest
+    #  mgmt-ipv4: 172.20.0.100
+    ## Arista Router to test against
+    #lab-ceos1:
+    #  kind: aristsa_ceos
+    #  image: ceos:latest
+    #  mgmt-ipv4: 172.20.0.101
+    ## Arista Router to test against
+    #lab-ceos1:
+    #  kind: juniper_crpd
+    #  image: crpd:latest
+    #  mgmt-ipv4: 172.20.0.102
