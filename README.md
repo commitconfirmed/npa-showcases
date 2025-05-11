@@ -1,8 +1,8 @@
 # Network Programmability and Automation showcases
 
-Welcome! 
+Welcome!
 
-Here you will find a bunch of ready to go labs based on a wide variety of network topologies and automation concepts using Containerlab as the orchestration engine. 
+Here you will find a bunch of ready to go labs based on a wide variety of network topologies and automation concepts using Containerlab as the orchestration engine.
 
 This is mostly just for my own personal learning and mentoring, but I have made it public in case it helps anyone else who may be in the same situation!
 

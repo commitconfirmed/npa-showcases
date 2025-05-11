@@ -4,9 +4,22 @@
         {
             "label": "Run Initial Setup Script",
             "type": "shell",
-            "command": "bash setup.sh",
-            "problemMatcher": [],
-            "isBackground": true
+            "command": "cd /workspaces/npa-showcases && bash setup.sh",
+        },
+        {
+            "label": "basic-nornir: Build Lab",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/examples/basic-nornir && bash manage.sh build",
+        },
+        {
+            "label": "basic-nornir: Run Lab",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/examples/basic-nornir && bash manage.sh run",
+        },
+        {
+            "label": "basic-nornir: Stop Lab",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/examples/basic-nornir && bash manage.sh stop",
         }
     ]
 }
