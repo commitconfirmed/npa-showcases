@@ -26,9 +26,9 @@ Verify you're all good to go with `containerlab version`
 
 ### Codespaces
 
-Click the button below to launch this repo in a new codespace
+Click the button below to launch this repo in a new codespace with Containerlab already installed
 
-Set the "Dev container configuration" to Containerlab to build your codespace with Containerlab installed.
+[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/commitconfirmed/npa-showcases?quickstart=1&devcontainer_path=.devcontainer%2Fcontainerlab%2Fdevcontainer.json)
 
 Most labs will work on the 2-core / 8Gb Memory Machine Type unless specifically called out in the labs README.md
 
