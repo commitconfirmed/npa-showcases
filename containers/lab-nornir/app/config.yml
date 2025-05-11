@@ -12,4 +12,4 @@ runner:
     options:
         num_workers: 10
 logging:
-    log_file: "/app/log/nornir.log"
+    log_file: "/app/nornir.log"

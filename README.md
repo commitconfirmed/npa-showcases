@@ -32,7 +32,7 @@ Click the button below to launch this repo in a new codespace with Containerlab 
 
 [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/commitconfirmed/npa-showcases?quickstart=1&devcontainer_path=.devcontainer%2Fcontainerlab%2Fdevcontainer.json)
 
-Most labs will work on the 2-core / 8Gb Memory Machine Type unless specifically called out in the labs README.md
+We use the 4-core / 16Gb memory Machine Type by default. You can change this to the 2-core one if you like but some of the bigger labs may not work.
 
 ### Setup script
 
