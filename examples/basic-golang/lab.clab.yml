@@ -14,6 +14,8 @@ topology:
       mgmt-ipv4: 172.20.0.10
       binds:
         - configs/lab-golang:/app:rw
+      exec:
+        - "chown -R admin:admin /app"
     ## SROS Router to test against
     #lab-srl1:
     #  kind: nokia_srlinux

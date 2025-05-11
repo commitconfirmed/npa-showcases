@@ -13,9 +13,11 @@ topology:
       image: lab-nornir:latest
       mgmt-ipv4: 172.20.0.100
       binds:
-        - configs/lab-nornir/inventory:/app/inventory:rw
-        - configs/lab-nornir/tasks:/app/tasks:rw
-        - configs/lab-nornir/templates:/app/templates:rw
+        - configs/lab-nornir/inventory:/app/inventory
+        - configs/lab-nornir/tasks:/app/tasks
+        - configs/lab-nornir/templates:/app/templates
+      exec:
+        - "chown -R admin:admin /app"
     # cRPD devices  
     crpd1:
       kind: juniper_crpd

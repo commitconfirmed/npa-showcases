@@ -76,7 +76,9 @@ crpd                                        latest        0cf5adbda509   22 mont
 
 #### NOS images in Codespaces
 
-Additional steps for Codespaces here
+To upload a NOS image into your codespaces from your local machine, simply right click the images folder and select upload: 
+
+![Codespaces upload screenshot](./.devcontainer/containerlab/codespaces-upload.png "Upload Screenshot")
 
 ## Design Brief
 

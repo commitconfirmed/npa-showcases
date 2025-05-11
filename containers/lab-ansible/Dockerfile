@@ -27,8 +27,7 @@ xmltodict \
 junos-eznc
 
 # Configure an ansible user with sudo access for ansible playbook execution
-# Note: UID 1000 is used to match containerlabs default UID for bind mounts
-RUN groupadd -r admin && useradd -rm -d /app -s /bin/bash -g admin -G sudo -u 1000 admin && \
+RUN groupadd -r admin && useradd -rm -d /app -s /bin/bash -g admin -G sudo admin && \
 echo 'admin:admin' | chpasswd
 
 RUN mkdir /var/run/sshd && \

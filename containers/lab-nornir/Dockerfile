@@ -28,7 +28,6 @@ nornir_scrapli \
 requests
 
 # Configure an admin user with sudo access
-# Note: UID 1000 is used to match containerlabs default UID for bind mounts
 RUN groupadd -r admin && \ 
 useradd -rm -d /app -s /bin/bash -g admin -G sudo admin && \
 echo 'admin:admin' | chpasswd 
