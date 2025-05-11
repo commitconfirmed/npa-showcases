@@ -6,13 +6,15 @@ Here you will find a bunch of ready to go labs based on a wide variety of networ
 
 This is mostly just for my own personal learning and mentoring, but I have made it public in case it helps anyone else who may be in the same situation!
 
-- [Setup](#setup)
-  - [Locally](#locally)
-  - [Codespaces](#codespaces)
-  - [Script](#setup-script)
-  - [NOS Images](#nos-images)
-- [Design Brief](#design-brief)
-- [Design Detail](#design-detail)
+- [Network Programmability and Automation showcases](#network-programmability-and-automation-showcases)
+  - [Setup](#setup)
+    - [Locally](#locally)
+    - [Codespaces](#codespaces)
+    - [Setup script](#setup-script)
+    - [NOS images](#nos-images)
+      - [NOS images in Codespaces](#nos-images-in-codespaces)
+  - [Design Brief](#design-brief)
+  - [Design Detail](#design-detail)
 
 ## Setup
 
@@ -70,7 +72,7 @@ crpd                                        latest        0cf5adbda509   22 mont
 ❯ 
 ```
 
-> Note: The Evaluation Juniper cRPD image only has limited functionality (OSPF, ISIS & Static Routing). Full functionality requires a license. 
+> Note: The Evaluation Juniper cRPD image only has limited functionality (OSPF, ISIS & Static Routing). Full functionality requires a license.
 
 #### NOS images in Codespaces
 
