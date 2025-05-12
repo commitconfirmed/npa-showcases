@@ -13,11 +13,9 @@ topology:
       image: lab-nornir:latest
       mgmt-ipv4: 172.20.0.100
       binds:
-        - configs/lab-nornir/inventory:/app/inventory
-        - configs/lab-nornir/tasks:/app/tasks
-        - configs/lab-nornir/templates:/app/templates
-      exec:
-        - "chown -R admin:admin /app"
+        - configs/lab-nornir/inventory:/app/inventory:ro
+        - configs/lab-nornir/tasks:/app/tasks:ro
+        - configs/lab-nornir/templates:/app/templates:ro
     # cRPD devices  
     crpd1:
       kind: juniper_crpd
@@ -25,7 +23,6 @@ topology:
       mgmt-ipv4: 172.20.0.11
       exec:
         - "ip addr add 10.0.0.0/31 dev eth1"
-        - "ip addr add 10.0.0.2/31 dev eth2"
         - "ip addr add 192.168.0.1 dev lo"
         - "ip addr add fec0:0:0:1111::1/128 dev lo"
     ceos1:
@@ -34,15 +31,9 @@ topology:
       mgmt-ipv4: 172.20.0.12
       env:
         CLAB_MGMT_VRF: MGMT
-    srl1:
-      kind: nokia_srlinux
-      image: ghcr.io/nokia/srlinux:latest
-      mgmt-ipv4: 172.20.0.13
 
   links:
     - endpoints: ["crpd1:eth1", "ceos1:eth1"]
-    - endpoints: ["crpd1:eth2", "srl1:ethernet-1/1"]
-    - endpoints: ["ceos1:eth2", "srl1:ethernet-1/2"]
 
     
 

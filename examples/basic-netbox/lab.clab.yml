@@ -15,17 +15,13 @@ topology:
       image: lab-ansible:latest
       mgmt-ipv4: 172.20.0.10
       binds:
-        - configs/lab-ansible/inventory:/app/inventory
-        - configs/lab-ansible/playbooks:/app/playbooks
-      exec:
-        - "chown -R admin:admin /app"
+        - configs/lab-ansible/inventory:/app/inventory:ro
+        - configs/lab-ansible/playbooks:/app/playbooks:ro
     nornir:
       kind: linux
       image: lab-nornir:latest
       mgmt-ipv4: 172.20.0.11
       binds:
-        - configs/lab-nornir/inventory:/app/inventory
-        - configs/lab-nornir/tasks:/app/tasks
-        - configs/lab-nornir/templates:/app/templates
-      exec:
-        - "chown -R admin:admin /app"
+        - configs/lab-nornir/inventory:/app/inventory:ro
+        - configs/lab-nornir/tasks:/app/tasks:ro
+        - configs/lab-nornir/templates:/app/templates:ro

@@ -1,13 +1,13 @@
 # Basic Nornir
 
-A lab with a Nornir server and some basic examples for interacting with Nokia, Arista & Juniper Network OS's. 
+A lab with a Nornir server and some basic examples for interacting with Arista & Juniper Network OS's. 
 
 - [Setup](#setup)
   - [Scripts](#scripts)
   - [Manually](#manually)
 - [Walkthrough](#walkthrough)
 
-> Note: This lab uses the Nokia, Arista & Juniper container NOS images. See https://github.com/commitconfirmed/npa-showcases?tab=readme-ov-file#nos-images for the steps if you haven't already installed them. 
+> Note: This lab uses the Arista & Juniper container NOS images. See https://github.com/commitconfirmed/npa-showcases?tab=readme-ov-file#nos-images for the steps if you haven't already installed them. 
 
 ## Setup
 
