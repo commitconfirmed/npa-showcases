@@ -7,18 +7,17 @@ from nornir.core.task import Task, Result
 from nornir_utils.plugins.functions import print_result
 from nornir_scrapli.tasks import send_command
 from nornir_scrapli.tasks import send_configs
+from nornir_scrapli.functions import print_structured_result
 from nornir.core.helpers.jinja_helper import render_from_file
-from nornir.core.helpers.jinja_helper import render_from_string
 from nornir.core.filter import F
 
-def configure_device(task: Task) -> Result:
-    #template = "set system host-name {{ task.host }}-test"
-    #rendered_template = render_from_string(template, task=task)
+def configure_device_junos(task: Task) -> Result:
     file = f"{task.host}.j2"
     rendered_template = render_from_file(
         template=file,
         path="/app/templates/",
         task=task)
+    # Load the config
     task.run(
         task=send_configs,
         configs=rendered_template.split("\n"),
@@ -45,11 +44,11 @@ def main():
         task=send_command,
         command="show version",
     )
-    print_result(result)
+    print_structured_result(result, fail_to_string=True)
     
     # Configuration example
-    result = filter.run(
-        task=configure_device,
+    result = filter_junos.run(
+        task=configure_device_junos,
     )
     print_result(result)
 

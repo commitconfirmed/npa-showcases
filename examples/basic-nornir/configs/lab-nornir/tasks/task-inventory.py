@@ -15,20 +15,30 @@ def hello_world(task: Task) -> Result:
     )
 
 def main():
-    print("Default Nornir Inventory \n -------------------------------")
+    print("--------------------------------")
+    print("Default Nornir Inventory \n--------------------------------")
     print(f"Hosts: {nr.inventory.hosts}")
     print(f"Groups: {nr.inventory.groups}")
-    print(f"Defaults: {nr.inventory.defaults}")
+    print(f"Specific host details (ceos1):")
+    for key, value in nr.inventory.hosts["ceos1"].items():
+        print(f"  {key}: {value}")
+    print("--------------------------------")
 
-    print("Nornir Inventory with Rich \n -------------------------------")
+    print("Nornir Inventory with Rich \n--------------------------------")
     print_inventory(nr)
+    print("--------------------------------")
 
     result = nr.run(task=hello_world)
-    print("Default Nornir task \n -------------------------------")
+    print("Default Nornir task \n--------------------------------")
     print_result_nornir(result)
-    print("Nornir task with Rich \n -------------------------------")
+    print("--------------------------------")
+    print("Nornir task with Rich \n--------------------------------")
     print_result(result)
-
+    
+    print("--------------------------------")
+    print("Nornir task with Rich (Filtered) \n--------------------------------")
+    result = nr.filter(platform="junos").run(task=hello_world)
+    print_result(result)
 
 if __name__ == "__main__":
     main()

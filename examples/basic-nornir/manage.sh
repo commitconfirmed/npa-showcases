@@ -19,7 +19,7 @@ else
         sudo containerlab deploy -t ./lab.clab.yml
         echo "Done. Sleeping for 5 seconds to allow the containers to fully boot"
         sleep 5
-        #sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
+        sudo docker exec -tu admin -w /app "clab-lab-nornir" python3 tasks/task-cfg-lab.py
         #sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml playbooks/pb-cfg-lab.yml
         ;;
         stop)
