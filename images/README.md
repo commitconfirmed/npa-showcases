@@ -1,6 +1,6 @@
 # Images
 
-Put any images/files/etc. in here that you upload into your codespaces VM or your local install that you want ignored. i.e. the Arista cEOS image, Cisco IOL image, Juniper cRPD image, etc. Instructions below to add images:
+Put any images/files/etc. in here that you upload into your codespaces VM or your local install that you want ignored. i.e. the Arista cEOS image, Juniper cRPD image, etc. Instructions below to add images:
 
 ```bash
 ❯ sudo docker image pull ghcr.io/nokia/srlinux
@@ -21,3 +21,14 @@ If using your own .gitignore file make sure you ignore this folders contents!
 images/**
 !images/README.md
 ```
+
+## What, no Cisco?
+
+Unfortunately from what I can gather the Cisco IOS on Linux (IOL) image is still a VM so it doesn't really fit with the aim of this repo. Maybe a container image will be available one day for free...
+
+If you're building this at home you can follow the links available below which "should" work with the free tier Cisco CML iso (CCO account required)
+
+https://containerlab.dev/manual/kinds/cisco_iol/
+
+https://developer.cisco.com/docs/modeling-labs/cml-free/
+

@@ -4,7 +4,6 @@ A lab with a Nornir server and some basic examples for interacting with Arista &
 
 - [Setup](#setup)
   - [Scripts](#scripts)
-  - [Manually](#manually)
 - [Walkthrough](#walkthrough)
 
 > Note: This lab uses the Arista & Juniper container NOS images. See https://github.com/commitconfirmed/npa-showcases?tab=readme-ov-file#nos-images for the steps if you haven't already installed them. 
@@ -19,4 +18,4 @@ A lab with a Nornir server and some basic examples for interacting with Arista &
 
 ## Walkthrough
 
-See blog post TBD
+Available at this [blog post](https://commitconfirmed.github.io/posts/basic-nornir/)
