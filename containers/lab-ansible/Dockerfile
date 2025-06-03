@@ -13,7 +13,9 @@ sshpass \
 sudo \
 && rm -rf /var/lib/apt/lists/*
 
-# Install Ansible and pynetbox plugin
+# Install Ansible and:
+# - pynetbox for Netbox integration
+# - remaining packages for Juniper integration
 # Note: PIP_BREAK_SYSTEM_PACKAGES is required to get this working
 # in github codespaces without doing a venv in a docker container
 # (yes i'm lazy and why do I need a venv in a docker image?)

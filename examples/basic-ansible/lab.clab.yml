@@ -1,4 +1,4 @@
-# A Basic Nornir lab
+# A Basic Ansible lab
 name: lab
 
 mgmt:
@@ -7,15 +7,16 @@ mgmt:
 
 topology:
   nodes:
-    # Nornir
+    # Ansible
     nornir:
       kind: linux
-      image: lab-nornir:latest
+      image: lab-ansible:latest
       mgmt-ipv4: 172.20.0.100
       binds:
-        - configs/lab-nornir/inventory:/app/inventory:ro
-        - configs/lab-nornir/tasks:/app/tasks:ro
-        - configs/lab-nornir/templates:/app/templates:ro
+        - configs/lab-ansible/inventory:/app/inventory:rw
+        - configs/lab-ansible/playbooks:/app/playbooks:rw
+        - configs/lab-ansible/templates:/app/templates:rw
+        - configs/lab-ansible/roles:/app/roles:rw
     # cRPD devices  
     crpd1:
       kind: juniper_crpd
