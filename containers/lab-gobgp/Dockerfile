@@ -13,6 +13,8 @@ iproute2 \
 tcpdump \
 iputils-ping \
 curl \
+&& apt-get autoremove -y \
+&& apt-get clean -y \
 && rm -rf /var/lib/apt/lists/*
 
 # Download & Install Go 

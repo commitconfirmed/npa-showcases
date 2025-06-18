@@ -9,6 +9,8 @@ python3-pip \
 iputils-ping \
 vim \
 openssh-server \
+&& apt-get autoremove -y \
+&& apt-get clean -y \
 && rm -rf /var/lib/apt/lists/*
 
 # Install nornir

@@ -11,6 +11,8 @@ vim \
 openssh-server \
 sshpass \
 sudo \
+&& apt-get autoremove -y \
+&& apt-get clean -y \
 && rm -rf /var/lib/apt/lists/*
 
 # Install Ansible and:
@@ -28,9 +30,10 @@ jxmlease \
 xmltodict \
 junos-eznc
 
-# Configure an ansible user with sudo access for ansible playbook execution
-RUN groupadd -r admin && useradd -rm -d /app -s /bin/bash -g admin -G sudo admin && \
-echo 'admin:admin' | chpasswd
+# Configure an admin user with sudo access
+RUN groupadd -r admin && \ 
+useradd -rm -d /app -s /bin/bash -g admin -G sudo admin && \
+echo 'admin:admin' | chpasswd 
 
 RUN mkdir /var/run/sshd && \
 sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \

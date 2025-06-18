@@ -11,8 +11,9 @@ else
         build)
         cd ../../containers/
         ./build.sh lab-ansible
+        ./build.sh lab-bird
         cd $current_dir
-        echo "Note: you will need to download and build cRPD manually for this lab!"
+        echo "Note: This lab needs the Arista container NOS image to be built manually!"
         ;;
         run)
         echo "Running the lab"
@@ -20,7 +21,6 @@ else
         echo "Done. Sleeping for 5 seconds to allow the containers to fully boot"
         sleep 5
         sudo docker exec -tu admin -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
-        sudo docker exec -tu admin -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-cfg-lab-junos.yml
         ;;
         stop)
         echo "Stopping & cleaning up the lab"

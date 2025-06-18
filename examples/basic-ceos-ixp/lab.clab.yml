@@ -1,0 +1,76 @@
+# A Basic Arista IXP Lab
+name: lab
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+    # Peer devices  
+    peer1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.201
+      env:
+        CLAB_MGMT_VRF: MGMT
+    peer2:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.202
+      env:
+        CLAB_MGMT_VRF: MGMT
+    peer3:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.203
+      env:
+        CLAB_MGMT_VRF: MGMT
+    # IXP switches
+    ixp1sw1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.241
+      env:
+        CLAB_MGMT_VRF: MGMT
+    ixp2sw1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.242
+      env:
+        CLAB_MGMT_VRF: MGMT
+    # Route servers
+    ixp1rs1:
+      kind: linux
+      image: lab-bird:latest
+      mgmt-ipv4: 172.20.0.251
+      exec:
+        - "ip addr add 192.168.0.251/24 brd 192.168.0.255 dev eth1"
+        - "ip -6 addr add 2001:db8:dff0:3000::1/52 dev eth1"
+        - "ip link set dev eth1 up"
+    ixp2rs1:
+      kind: linux
+      image: lab-bird:latest
+      mgmt-ipv4: 172.20.0.252
+      exec:
+        - "ip addr add 192.168.0.252/24 brd 192.168.0.255 dev eth1"
+        - "ip -6 addr add 2001:db8:dff0:3000::2/52 dev eth1"
+        - "ip link set dev eth1 up"
+    # Ansible
+    ansible:
+      kind: linux
+      image: lab-ansible:latest
+      mgmt-ipv4: 172.20.0.100
+      binds:
+        - configs/ansible/inventory:/app/inventory:rw
+        - configs/ansible/playbooks:/app/playbooks:rw
+
+  links:
+    - endpoints: ["ixp1rs1:eth1", "ixp1sw1:eth1"]
+    - endpoints: ["ixp2rs1:eth1", "ixp2sw1:eth1"]
+    - endpoints: ["ixp1sw1:eth2", "ixp2sw1:eth2"]
+    - endpoints: ["ixp1sw1:eth3", "peer1:eth1"]
+    - endpoints: ["ixp1sw1:eth4", "peer2:eth1"]
+    - endpoints: ["ixp2sw1:eth3", "peer3:eth1"]
+
+    

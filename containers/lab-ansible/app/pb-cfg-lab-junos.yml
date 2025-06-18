@@ -1,4 +1,5 @@
-# Configure the lab environment
+# Basic playbook to configure Juniper cRPD devices from a j2 template
+# with the same name as the inventory hostname
 ---
 - hosts: juniper_crpd
   gather_facts: false
