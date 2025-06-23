@@ -1,0 +1,12 @@
+#jinja2: trim_blocks:True
+{# Build the BIRD bgp configuration depending on the server type #}
+{# Current Server Types: #}
+{# - route_server        #}
+{# - anycast_server      #}
+
+{% if bgp is defined %}
+{%     include 'bird_basic.j2' %}
+{%     if bgp.type == "anycast_server" %}
+{%         include 'bird_anycast.j2' %}
+{%     endif %}
+{% endif %}

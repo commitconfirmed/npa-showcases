@@ -1,0 +1,88 @@
+# Basic GNMIC Configuration (TBD: convert to Ansible J2)
+
+username: admin
+password: admin
+port: 6030
+timeout: 10s
+skip-verify: true
+encoding: json_ietf
+
+targets:
+  clab-lab-spine1:
+    insecure: true
+  clab-lab-spine2:
+    insecure: true
+  clab-lab-leaf1:
+    insecure: true
+  clab-lab-leaf2:
+    insecure: true
+  clab-lab-leaf3:
+    insecure: true
+  clab-lab-leaf4:
+    insecure: true
+  clab-lab-bdr1:
+    insecure: true
+
+subscriptions:
+  eos_bgp_neighbors:
+    paths:
+      - /network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp/neighbors
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+  eos_cpu:
+    paths:
+      - components/component/cpu
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+  eos_mem:
+    paths:
+      - components/component/state/memory/
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+  eos_interface_stats:
+    paths:
+      - /interfaces/interface[name=*]/state/counters
+    mode: stream
+    stream-mode: sample
+    sample-interval: 5s
+
+outputs:
+  serv-prometheus:
+    type: prometheus
+    listen: :9273
+    path: /metrics
+    metric-prefix: gnmic
+    append-subscription-name: true
+    export-timestamps: true
+    debug: false
+    event-processors:
+      - trim-prefixes
+      - up-down-map
+
+processors:
+  trim-prefixes:
+    event-strings:
+      value-names:
+        - ".*"
+      transforms:
+        - path-base:
+            apply-on: "name"
+  up-down-map:
+    event-strings:
+      value-names:
+        - oper-state
+      transforms:
+        - replace:
+            apply-on: "value"
+            old: "up"
+            new: "1"
+        - replace:
+            apply-on: "value"
+            old: "down"
+            new: "0"

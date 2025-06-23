@@ -1,0 +1,37 @@
+---
+# Specific Device configuration
+#
+# Interfaces, IPs, Routing, etc.
+system:
+  type: "router"
+
+# Interfaces (Management already done by Containerlab)
+interfaces:
+  - if: "Loopback0"
+    desc: "Underlay Loopback"
+    ipv4: "10.0.0.111/32"
+    ipv6: "2001:2:b1::1/128"
+  - if: "Ethernet1"
+    desc: "ceos-leaf1:Ethernet1 --> ceos-spine1:Ethernet1"
+    ipv6: "LLA"
+  - if: "Ethernet2"
+    desc: "ceos-leaf1:Ethernet2 --> ceos-spine2:Ethernet1"
+    ipv6: "LLA"
+  - if: "Ethernet5"
+    desc: "ceos-leaf1:Ethernet5 --> bird-serv1:eth1"
+    ipv4: "10.254.1.1/24"
+    ipv6: "LLA"
+
+# Routing
+bgp:
+  router_id: 10.0.0.111
+  local_as: 65101
+  type: "leaf"
+  underlay_name: "PG_UNDERLAY"
+  underlay_as: 65000
+  leaf_listen_range: "10.254.1.0/24" # Enable listening for anycast servers
+  underlay_interfaces:
+    - if: "Ethernet1"
+    - if: "Ethernet2"
+        
+

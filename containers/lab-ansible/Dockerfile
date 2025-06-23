@@ -28,7 +28,8 @@ pynetbox \
 looseversion \
 jxmlease \
 xmltodict \
-junos-eznc
+junos-eznc \
+ansible-pylibssh
 
 # Configure an admin user with sudo access
 RUN groupadd -r admin && \ 

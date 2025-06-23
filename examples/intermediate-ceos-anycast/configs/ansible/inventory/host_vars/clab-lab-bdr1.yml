@@ -1,0 +1,70 @@
+---
+# Specific Device configuration
+#
+# Interfaces, IPs, Routing, etc.
+system:
+  type: "router"
+  
+# Interfaces (Management already done by Containerlab)
+interfaces:
+  - if: "Loopback0"
+    desc: "Underlay Loopback"
+    ipv4: "172.16.0.1/32"
+    ipv6: "2002::172:16:0:1/128"
+  - if: "Ethernet1"
+    desc: "ceos-bdr1:Ethernet1 --> ceos-spine1:Ethernet5"
+    ipv4: "10.255.0.3/31"
+    ipv6: "LLA"
+  - if: "Ethernet2"
+    desc: "ceos-bdr1:Ethernet2 --> ceos-spine2:Ethernet5"
+    ipv4: "10.255.0.5/31"
+    ipv6: "LLA"
+  - if: "Ethernet5"
+    desc: "ceos-bdr1:Ethernet5 --> ceos-host1:Eth0"
+    ipv4: "172.16.10.1/24"
+    ipv6: "LLA"
+
+bgp:
+  router_id: 172.16.0.1
+  local_as: 300
+  type: "external"
+  sessions:
+    - name: "BDR"
+      remote_as: 100
+      neighbors:
+        - ip: "10.255.0.2"
+          pg: "BDR-IPV4"
+          desc: "To ceos-spine1 - v4"
+        - ip: "2002::10.255.0.2"
+          pg: "BDR-IPV6"
+          desc: "To ceos-spine1 - v6"
+        - ip: "10.255.0.4"
+          pg: "BDR-IPV4"
+          desc: "To ceos-spine2 - v4"
+        - ip: "2002::10.255.0.4"
+          pg: "BDR-IPV6"
+          desc: "To ceos-spine2 - v6"
+      prefixes_v4_out:
+        - prefix: "172.16.10.0/24"
+          action: "permit"
+      prefixes_v6_out:
+        - prefix: "2002::/48"
+          action: "permit"
+      routemaps_v4_in:
+        - action: "permit"
+          pfl: "PL-ANY-INBOUND"
+        - action: "deny"
+      routemaps_v4_out:
+        - action: "permit"
+          pfl: "PL-BDR-OUTBOUND"
+        - action: "deny"
+      routemaps_v6_in:
+        - action: "permit"
+          pfl: "PL-ANY-INBOUND-V6"
+        - action: "deny"
+      routemaps_v6_out:
+        - action: "permit"
+          pfl: "PL-BDR-OUTBOUND-V6"
+        - action: "deny"
+        
+

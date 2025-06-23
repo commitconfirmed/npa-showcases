@@ -1,0 +1,150 @@
+{# External BGP config #}
+
+{# Generic bogon filter PFL #}
+ip prefix-list PL-BOGONS
+{# Excluding 10.0.0.0/8 as this is a lab #}
+   permit 100.64.0.0/10 le 32
+   permit 127.0.0.0/8 le 32
+   permit 169.254.0.0/16 le 32
+   permit 172.16.0.0/12 le 32
+   permit 192.0.0.0/24 le 32
+   permit 192.0.2.0/24 le 32
+   permit 192.168.0.0/16 le 32
+   permit 198.18.0.0/15 le 32
+   permit 198.51.100.0/24 le 32
+   permit 203.0.113.0/24 le 32
+   permit 224.0.0.0/3 le 32
+   resequence
+ipv6 prefix-list PL-BOGONS-V6
+{# Excluding 2001:db8::/32 as this is a lab #}
+   permit ::/8 le 128
+   permit 100::/64 le 128
+   permit 2001:2::/48 le 128
+   permit 2001:10::/28 le 128
+   permit 2002::/16 le 128
+   permit 3ffe::/16 le 128
+   permit fc00::/7 le 128
+   permit fe80::/10 le 128
+   permit fec0::/10 le 128
+   permit ff00::/8 le 128
+   resequence
+
+{# Default route PFL #}
+ip prefix-list PL-DEFAULT
+   permit 0.0.0.0/0
+ipv6 prefix-list PL-DEFAULT-V6
+   permit ::/0
+
+{# Generic prefix length PFL #}
+ip prefix-list PL-ANY-INBOUND
+   permit 0.0.0.0/0 le 24
+ipv6 prefix-list PL-ANY-INBOUND-V6
+   permit ::/0 le 48
+
+{# Specific PFLs defined in Host Variables #}
+{% for session in bgp.sessions %}
+{%     if session.prefixes_v4_out is defined %}
+ip prefix-list PL-{{ session.name }}-OUTBOUND
+{%         for pfx in session.prefixes_v4_out %}
+   {{ pfx.action }} {{ pfx.prefix }}
+{%         endfor %}
+   resequence
+{%     endif %}
+{%     if session.prefixes_v6_out is defined %}
+ipv6 prefix-list PL-{{ session.name }}-OUTBOUND-V6
+{%         for pfx in session.prefixes_v6_out %}
+   {{ pfx.action }} {{ pfx.prefix }}
+{%         endfor %}
+   resequence
+{%     endif %}
+{% endfor %}
+
+{# Specific Route Maps defined in Host Variables #}
+{% for session in bgp.sessions %}
+{%     if session.routemaps_v4_in is defined %}
+{%         for entry in session.routemaps_v4_in %}
+route-map {{ session.name | upper }}-RM-IPV4-IN {{ entry.action }} {{ loop.index }}0
+{%             if entry.pfl is defined %}
+   match ip address prefix-list {{ entry.pfl | upper }}
+{%             endif %}
+{%             if entry.localpref is defined %}
+   set local-preference {{ entry.localpref }}
+{%             endif %}
+{%             if entry.prepend is defined %}
+   set as-path prepend auto repeat {{ entry.prepend }}
+{%             endif %}
+{%         endfor %}
+{%     endif %}
+{%     if session.routemaps_v4_out is defined %}
+{%         for entry in session.routemaps_v4_out %}
+route-map {{ session.name | upper }}-RM-IPV4-OUT {{ entry.action }} {{ loop.index }}0
+{%             if entry.pfl is defined %}
+   match ip address prefix-list {{ entry.pfl | upper }}
+{%             endif %}
+{%             if entry.localpref is defined %}
+   set local-preference {{ entry.localpref }}
+{%             endif %}
+{%             if entry.prepend is defined %}
+   set as-path prepend auto repeat {{ entry.prepend }}
+{%             endif %}
+{%         endfor %}
+{%     endif %}
+{%     if session.routemaps_v6_in is defined %}
+{%         for entry in session.routemaps_v6_in %}
+route-map {{ session.name | upper }}-RM-IPV6-IN {{ entry.action }} {{ loop.index }}0
+{%             if entry.pfl is defined %}
+   match ipv6 address prefix-list {{ entry.pfl | upper }}
+{%             endif %}
+{%             if entry.localpref is defined %}
+   set local-preference {{ entry.localpref }}
+{%             endif %}
+{%             if entry.prepend is defined %}
+   set as-path prepend auto repeat {{ entry.prepend }}
+{%             endif %}
+{%         endfor %}
+{%     endif %}
+{%     if session.routemaps_v6_out is defined %}
+{%         for entry in session.routemaps_v6_out %}
+route-map {{ session.name | upper }}-RM-IPV6-OUT {{ entry.action }} {{ loop.index }}0
+{%             if entry.pfl is defined %}
+   match ipv6 address prefix-list {{ entry.pfl | upper }}
+{%             endif %}
+{%             if entry.localpref is defined %}
+   set local-preference {{ entry.localpref }}
+{%             endif %}
+{%             if entry.prepend is defined %}
+   set as-path prepend auto repeat {{ entry.prepend }}
+{%             endif %}
+{%         endfor %}
+{%     endif %}
+{% endfor %}
+
+{# BGP Configuration #}
+router bgp {{ bgp.local_as }}
+   router-id {{ bgp.router_id }}
+   no bgp default ipv4-unicast
+{% for session in bgp.sessions %}
+{%     for family in ("IPV4", "IPV6") %}
+   neighbor {{ session.name }}-{{ family }} peer group
+   neighbor {{ session.name }}-{{ family }} next-hop-self
+{%     if session.local_as is defined %}
+   neighbor {{ session.name }}-{{ family }} local-as {{ session.local_as }} no-prepend replace-as
+{%     endif %}
+   neighbor {{ session.name }}-{{ family }} remote-as {{ session.remote_as }}
+   neighbor {{ session.name }}-{{ family }} remove-private-as all
+   no neighbor {{ session.name }}-{{ family }} enforce-first-as
+   address-family {{ family | lower }}
+      neighbor {{ session.name }}-{{ family }} activate
+      neighbor {{ session.name }}-{{ family }} route-map {{ session.name }}-RM-{{ family }}-IN in
+      neighbor {{ session.name }}-{{ family }} route-map {{ session.name }}-RM-{{ family }}-OUT out
+      redistribute connected
+      redistribute static
+{%     endfor %}
+{%     for neighbor in session.neighbors %}
+   neighbor {{ neighbor.ip }} peer group {{ neighbor.pg }}
+   neighbor {{ neighbor.ip }} description  {{ neighbor.desc }}
+   neighbor {{ neighbor.ip }} maximum-routes 1000
+{%     endfor %}
+{% endfor %}
+
+   

@@ -1,0 +1,29 @@
+{# Used by conf_bird_server.j2 #}
+
+# Filter configuration
+filter ipv4_export {     
+    if (net ~ [172.16.1.1/32]) then { 
+        accept;
+    }
+    reject;
+}
+
+{# Overkill for just 1 session/neighbor, but want to keep the BGP YAML syntax consistent #}
+# BGP Configuration
+protocol bgp {
+{% for session in bgp.sessions %}
+  description "{{ session.name }}";
+  local {{ bgp.router_id }} as {{ bgp.local_as }};
+{%     for neighbor in session.neighbors %}
+  neighbor {{ neighbor.ip }} as {{ session.remote_as }};
+{%     endfor %}
+  ipv4 {
+  	import all;
+  	export filter ipv4_export;
+  };
+#  ipv6 {
+#  	import all;
+#  	export all;
+#  };
+{% endfor %}
+}

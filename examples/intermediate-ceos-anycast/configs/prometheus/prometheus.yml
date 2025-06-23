@@ -1,0 +1,8 @@
+# Basic Prometheus config (TBD: Convert to ansible j2)
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "gnmic"
+    static_configs:
+      - targets: ["clab-lab-gnmic:9273"]

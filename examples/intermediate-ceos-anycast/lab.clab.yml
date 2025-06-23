@@ -1,0 +1,175 @@
+# A Basic BGP anycast lab
+name: lab
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+  ### Management and Telemetry servers ###
+    ansible:
+      kind: linux
+      image: lab-ansible:latest
+      mgmt-ipv4: 172.20.0.20
+      binds:
+        - configs/ansible/inventory:/app/inventory:ro
+        - configs/ansible/pb-cfg-lab.yml:/app/pb-cfg-lab.yml:ro
+        - configs/ansible/roles:/app/roles:ro
+    gnmic:
+      kind: linux
+      image: gnmic/gnmic:latest
+      mgmt-ipv4: 172.20.0.21
+      binds:
+        - configs/gnmic/gnmic-config.yml:/gnmic-config.yml:ro
+      cmd: --config /gnmic-config.yml --log subscribe
+    prometheus:
+      kind: linux
+      image: prom/prometheus:latest
+      mgmt-ipv4: 172.20.0.22
+      binds:
+        - configs/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      cmd: --config.file=/etc/prometheus/prometheus.yml
+      ports:
+        - 9090:9090
+    grafana:
+      kind: linux
+      image: grafana/grafana:main-ubuntu
+      mgmt-ipv4: 172.20.0.23
+      binds:
+        - configs/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
+        - configs/grafana/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
+        - configs/grafana/dashboards:/var/lib/grafana/dashboards
+      ports:
+        - 3000:3000
+      env:
+        GF_ORG_ROLE: "Admin"
+        GF_ORG_NAME: "Commit Confirmed"
+        GF_AUTH_ANONYMOUS_ENABLED: "true"
+        GF_AUTH_ANONYMOUS: "true"
+
+  ### Spines ###
+    spine1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.101
+      env:
+        CLAB_MGMT_VRF: MGMT
+    spine2:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.102
+      env:
+        CLAB_MGMT_VRF: MGMT
+    
+  ### Leafs ###
+    leaf1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.111
+      env:
+        CLAB_MGMT_VRF: MGMT
+    leaf2:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.112
+      env:
+        CLAB_MGMT_VRF: MGMT
+    leaf3:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.113
+      env:
+        CLAB_MGMT_VRF: MGMT
+    leaf4:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.114
+      env:
+        CLAB_MGMT_VRF: MGMT
+
+    ### Anycast Servers ###
+    serv1:
+      kind: linux
+      image: lab-bird:latest
+      mgmt-ipv4: 172.20.0.121
+      binds:
+        - configs/serv/iperf-serv.sh:/app/iperf-serv.sh:ro
+      exec:
+        - "ip addr add 10.254.1.2/24 brd 10.254.1.255 dev eth1"
+        - "ip addr add 172.16.1.1/32 dev lo"
+        - "ip link set dev eth1 up"
+        - "bash /app/iperf-serv.sh"
+    serv2:
+      kind: linux
+      image: lab-bird:latest
+      mgmt-ipv4: 172.20.0.122
+      binds:
+        - configs/serv/iperf-serv.sh:/app/iperf-serv.sh:ro
+      exec:
+        - "ip addr add 10.254.2.2/24 brd 10.254.2.255 dev eth1"
+        - "ip addr add 172.16.1.1/32 dev lo"
+        - "ip link set dev eth1 up"
+        - "bash /app/iperf-serv.sh"
+    serv3:
+      kind: linux
+      image: lab-bird:latest
+      mgmt-ipv4: 172.20.0.123
+      binds:
+        - configs/serv/iperf-serv.sh:/app/iperf-serv.sh:ro
+      exec:
+        - "ip addr add 10.254.3.2/24 brd 10.254.3.255 dev eth1"
+        - "ip addr add 172.16.1.1/32 dev lo"
+        - "ip link set dev eth1 up"
+        - "bash /app/iperf-serv.sh"
+    serv4:
+      kind: linux
+      image: lab-bird:latest
+      mgmt-ipv4: 172.20.0.124
+      binds:
+        - configs/serv/iperf-serv.sh:/app/iperf-serv.sh:ro
+      exec:
+        - "ip addr add 10.254.4.2/24 brd 10.254.4.255 dev eth1"
+        - "ip addr add 172.16.1.1/32 dev lo"
+        - "ip link set dev eth1 up"
+        - "bash /app/iperf-serv.sh"
+
+    ### Border and Host to generate traffic ###
+    bdr1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.201
+      env:
+        CLAB_MGMT_VRF: MGMT
+    host1:
+      kind: linux
+      image: lab-host:latest
+      mgmt-ipv4: 172.20.0.202
+      binds:
+        - configs/host/iperf-interfaces.sh:/app/iperf-interfaces.sh:ro
+        - configs/host/iperf-client.sh:/app/iperf-client.sh:ro
+      exec:
+        - "ip addr add 172.16.10.2/24 brd 172.16.10.255 dev eth1"
+        - "ip -6 addr add 2001:db8:a10::2/48 dev eth1"
+        - "ip route add 172.16.0.0/16 via 172.16.10.1 dev eth1"
+        - "ip -6 route add default via 2001:db8:a10::1 dev eth1"
+        - "ip link set eth1 mtu 1500"
+        - "ip link set dev eth1 up"
+        - "bash /app/iperf-interfaces.sh"
+
+  links:
+    - endpoints: ["spine1:eth1", "leaf1:eth1"]
+    - endpoints: ["spine1:eth2", "leaf2:eth1"]
+    - endpoints: ["spine1:eth3", "leaf3:eth1"]
+    - endpoints: ["spine1:eth4", "leaf4:eth1"]
+    - endpoints: ["spine2:eth1", "leaf1:eth2"]
+    - endpoints: ["spine2:eth2", "leaf2:eth2"]
+    - endpoints: ["spine2:eth3", "leaf3:eth2"]
+    - endpoints: ["spine2:eth4", "leaf4:eth2"]
+    - endpoints: ["serv1:eth1", "leaf1:eth5"]
+    - endpoints: ["serv2:eth1", "leaf2:eth5"]
+    - endpoints: ["serv3:eth1", "leaf3:eth5"]
+    - endpoints: ["serv4:eth1", "leaf4:eth5"]
+    - endpoints: ["bdr1:eth1", "spine1:eth5"]
+    - endpoints: ["bdr1:eth2", "spine2:eth5"]
+    - endpoints: ["host1:eth1", "bdr1:eth5"]

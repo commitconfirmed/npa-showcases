@@ -1,0 +1,11 @@
+---
+# Anycast Server configuration
+bgp:
+  type: "anycast_server"
+  router_id: "10.254.2.2"
+  local_as: 65202
+  sessions:
+    - name: "To CEOS-LEAF2"
+      remote_as: 65102
+      neighbors:
+        - ip: "10.254.2.1"

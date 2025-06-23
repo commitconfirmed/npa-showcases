@@ -1,0 +1,27 @@
+# Create the /etc/bird/bird.conf file relevant to the lab deployment
+# and then run bird
+---
+- name: Device configuration to be applied
+  ansible.builtin.debug:
+    msg: "{{ lookup('template', '../templates/conf_bird_server.j2') }}"
+
+- name: Apply bird.conf
+  ansible.builtin.template:
+    src: "../templates/conf_bird_server.j2"
+    dest: /etc/bird/bird.conf
+    owner: bird
+    group: bird
+    mode: u=rw,g=r,o=r
+  become: true
+
+- name: Stop BIRD
+  ansible.builtin.command: "{{ item }}"
+  with_items:
+    - "service bird stop"
+  become: true
+
+- name: Run BIRD
+  ansible.builtin.command: "{{ item }}"
+  with_items:
+    - "/usr/sbin/bird -u bird -g bird -c /etc/bird/bird.conf"
+  become: true
