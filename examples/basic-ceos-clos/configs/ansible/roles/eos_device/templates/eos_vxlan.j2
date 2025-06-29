@@ -1,0 +1,71 @@
+{# EVPN-VXLAN configuration for host communications #}
+
+lacp port-id range {{ vxlan.range_start }} {{ vxlan.range_end }}
+ip virtual-router mac-address {{ vxlan.mac_address }}
+
+interface Port-Channel{{ vxlan.common.lacp_id }}
+   description LACP to host
+   switchport
+   switchport mode trunk
+   lacp system-id {{ vxlan.mac_address }}
+   evpn ethernet-segment
+     identifier {{ vxlan.common.evpn_id }}
+     route-target import {{ vxlan.common.evpn_rt }}
+
+interface {{ vxlan.common.host_if }}
+   description {{ vxlan.common.desc }}
+   switchport
+   switchport mode trunk
+   channel-group {{ vxlan.common.lacp_id }} mode active
+   no shutdown
+
+{# Tenants #}
+{% for tenant in vxlan.tenants %}
+vrf instance {{ tenant.id }}
+ip routing vrf {{ tenant.id }}
+vlan {{ tenant.l3_vlan.id }}
+   name {{ tenant.id }}|{{ tenant.l3_vlan.id }}
+{%    for vlan in tenant.l2_vlans %}
+vlan {{ vlan }}
+    name "{{ tenant.id }}|{{ vlan }}"
+{%    endfor %}
+interface Loopback{{ tenant.l3_vlan.id }}
+   description [{{ tenant.id }}] Loopback
+   vrf {{ tenant.id }}
+   ip address {{ tenant.l3_vlan.loop_ip }}/32
+interface Vlan{{ tenant.l3_vlan.id }}
+   description [{{ tenant.id }}] Gateway
+   vrf {{ tenant.id }}
+   ip address virtual {{ tenant.l3_vlan.gw_ip }}
+interface {{ tenant.host_if }}
+   switchport trunk allowed vlan add {{ tenant.l3_vlan.id }}
+{%    for vlan in tenant.l2_vlans %}
+   switchport trunk allowed vlan add {{ vlan }}
+{%    endfor %}
+ip address virtual source-nat vrf {{ tenant.id }} address {{ tenant.l3_vlan.loop_ip }}
+router bgp {{ bgp.local_as }}
+   vlan-aware-bundle {{ tenant.id }}
+      rd {{ bgp.router_id }}:{{ tenant.l3_vlan.id }}
+      route-target both {{ tenant.l3_vlan.id }}:{{ tenant.l3_vlan.id }}
+      route-target export 666:{{ tenant.l3_vlan.id }}
+      redistribute learned
+      vlan add {{ tenant.l3_vlan.id }}
+{%    for vlan in tenant.l2_vlans %}
+      vlan add {{ vlan}}
+{%    endfor %}
+   vrf {{ tenant.id }}
+      rd {{ bgp.router_id }}:{{ tenant.l3_vlan.vni }}
+      route-target import evpn {{ tenant.l3_vlan.vni }}:{{ tenant.l3_vlan.vni }}
+      route-target export evpn {{ tenant.l3_vlan.vni }}:{{ tenant.l3_vlan.vni }}
+      redistribute connected
+!
+{% endfor %}
+interface Vxlan1
+   vxlan source-interface Loopback1
+{% for tenant in vxlan.tenants %}
+   vxlan vlan add {{ tenant.l3_vlan.id }} vni {{ tenant.l3_vlan.id }}
+   vxlan vrf {{ tenant.id }} vni {{ tenant.l3_vlan.vni }}
+{%    for vlan in tenant.l2_vlans %}
+   vxlan vlan add {{ vlan }} vni {{ vlan }}
+{%    endfor %}
+{% endfor %}

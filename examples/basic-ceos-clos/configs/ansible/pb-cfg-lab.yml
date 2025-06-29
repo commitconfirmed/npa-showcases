@@ -1,0 +1,13 @@
+# Configure a small BGP anycast network
+---
+- hosts: routers
+  gather_facts: false
+  roles:
+    - role: eos_device
+      tags: [ routers ] 
+
+- hosts: clients
+  gather_facts: false
+  roles:
+    - role: ubuntu_host
+      tags: [ clients ]

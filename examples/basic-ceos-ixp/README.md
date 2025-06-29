@@ -2,6 +2,9 @@
 
 A lab showing the initial basic setup of an IXP's infrastructure
 
+> [!CAUTION]
+> Currently a Work in Progress
+
 - [Setup](#setup)
 - [Walkthrough](#walkthrough)
 

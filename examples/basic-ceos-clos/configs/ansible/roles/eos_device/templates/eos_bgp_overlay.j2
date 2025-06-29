@@ -1,0 +1,27 @@
+
+{# Overlay Peer Filter #}
+peer-filter PF-OVERLAY
+   match as-range 65100-65200 result accept
+
+{# Overlay BGP Configuration #}
+router bgp {{ bgp.local_as }}
+{% if "leaf" in bgp.type %}
+   neighbor {{ bgp.overlay_name }} peer group
+   neighbor {{ bgp.overlay_name }} remote-as {{ bgp.overlay_as }}
+   neighbor {{ bgp.overlay_name }} update-source Loopback0
+   neighbor {{ bgp.overlay_name }} ebgp-multihop 3
+   neighbor {{ bgp.overlay_name }} send-community
+{%     for item in bgp.overlay_interfaces %}
+   neighbor {{ item.ip }} peer group {{ bgp.overlay_name }}
+{%     endfor %}
+{% endif %}
+{% if "spine" in bgp.type %}
+   neighbor {{ bgp.overlay_name }} peer group
+   neighbor {{ bgp.overlay_name }} next-hop-unchanged
+   neighbor {{ bgp.overlay_name }} update-source Loopback0
+   neighbor {{ bgp.overlay_name }} ebgp-multihop 3
+   neighbor {{ bgp.overlay_name }} send-community
+   bgp listen range {{ bgp.listen.overlay.listen_range }} peer-group {{ bgp.overlay_name }} peer-filter PF-OVERLAY
+{% endif %}
+   address-family evpn
+     neighbor {{ bgp.overlay_name }} activate

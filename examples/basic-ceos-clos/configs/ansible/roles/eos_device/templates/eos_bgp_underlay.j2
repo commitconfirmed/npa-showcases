@@ -1,0 +1,42 @@
+{# Required for IPV4 forwarding over IPV6 #}
+ip routing ipv6 interfaces
+
+{# Underlay Loopback PFL #}
+ip prefix-list PL-LOOPBACK
+   permit 10.0.0.0/23 eq 32
+
+{# Underlay Loopback RM #}
+route-map RM-UNDERLAY permit 10
+   match ip address prefix-list PL-LOOPBACK
+route-map RM-UNDERLAY deny 20
+
+{# Underlay Peer AS Filter #}
+peer-filter PF-UNDERLAY
+{% if bgp.leaf_listen_range is defined %}
+   match as-range 65200-65300 result accept
+{% else %}
+   match as-range 65100-65200 result accept
+{% endif %}
+
+{# Underlay BGP Configuration #}
+router bgp {{ bgp.local_as }}
+   router-id {{ bgp.router_id }}
+   no bgp default ipv4-unicast
+   maximum-paths 4 ecmp 4
+{% if "spine" in bgp.type %}
+   bgp listen range fe80::/10 peer-group {{ bgp.underlay_name }} peer-filter PF-UNDERLAY
+{% endif %}
+{% if bgp.leaf_listen_range is defined %}
+   bgp listen range {{ bgp.leaf_listen_range }} peer-group {{ bgp.underlay_name }} peer-filter PF-UNDERLAY
+{% endif %}
+{% if "leaf" in bgp.type %}
+{%     for item in bgp.underlay_interfaces %}
+   neighbor interface {{ item.if }} peer-group {{ bgp.underlay_name }} remote-as {{ bgp.underlay_as }}
+{%     endfor %}
+{% endif %}
+   neighbor {{ bgp.underlay_name }} peer group
+   neighbor {{ bgp.underlay_name }} send-community
+   address-family ipv4
+      neighbor {{ bgp.underlay_name }} activate
+      neighbor {{ bgp.underlay_name }} next-hop address-family ipv6 originate
+      redistribute connected route-map RM-UNDERLAY

@@ -1,0 +1,17 @@
+{# Interfaces config #}
+{% for item in interfaces %}
+interface {{ item.if }}
+   description {{ item.desc }}
+{%     if item.routed is defined %}
+   no switchport
+{%     endif %}
+{%     if item.ipv4 is defined %}
+   ip address {{ item.ipv4 }}
+{%     endif %}
+{%     if item.ipv6 is defined %}
+   ipv6 enable
+{%         if item.ipv6 != "LLA" %}
+   ipv6 address {{ item.ipv6 }}
+{%         endif %}
+{%     endif %}
+{% endfor %}

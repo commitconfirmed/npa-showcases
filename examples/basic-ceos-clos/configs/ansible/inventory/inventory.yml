@@ -1,0 +1,52 @@
+all:
+  vars:
+    # The generated inventory is assumed to be used from the clab host.
+    # Hence no http proxy should be used. Therefore we make sure the http
+    # module does not attempt using any global http proxy.
+    ansible_httpapi_use_proxy: false
+  children:
+    eos:
+      vars:
+        ansible_connection: ansible.netcommon.network_cli
+        ansible_network_os: arista.eos.eos
+        ansible_user: admin
+        ansible_password: admin
+        ansible_become: true
+        ansible_become_method: enable
+      hosts:
+        clab-lab-spine1: 
+          ansible_host: 172.20.0.201
+        clab-lab-spine2: 
+          ansible_host: 172.20.0.202
+        clab-lab-leaf1: 
+          ansible_host: 172.20.0.211
+        clab-lab-leaf2: 
+          ansible_host: 172.20.0.212
+        clab-lab-leaf3: 
+          ansible_host: 172.20.0.213
+        clab-lab-leaf4: 
+          ansible_host: 172.20.0.214
+    linux:
+      vars:
+        ansible_connection: paramiko
+        ansible_user: admin
+        ansible_password: admin
+        ansible_become_method: sudo
+        ansible_become_password: admin
+      hosts:
+        clab-lab-host1: 
+          ansible_host: 172.20.0.111
+        clab-lab-host2: 
+          ansible_host: 172.20.0.112
+    routers:
+      hosts:
+        clab-lab-spine1:
+        clab-lab-spine2:
+        clab-lab-leaf1:
+        clab-lab-leaf2:
+        clab-lab-leaf3:
+        clab-lab-leaf4:
+    clients:
+      hosts:
+        clab-lab-host1:
+        clab-lab-host2:

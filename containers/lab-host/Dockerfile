@@ -2,10 +2,8 @@ FROM ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install SSH, bonding and basic network verification tools
+# Install SSH and basic networking tools
 RUN apt-get update -y && apt-get install -y \
-kmod \ 
-ifenslave \
 iproute2 \
 tcpdump \
 iputils-ping \
@@ -18,10 +16,11 @@ make \
 && apt-get clean -y \
 && rm -rf /var/lib/apt/lists/*
 
-# Manual install of iperf3 to use 3.19
-RUN wget https://downloads.es.net/pub/iperf/iperf-3.19.tar.gz
-RUN tar -xzf iperf-3.19.tar.gz && \
-cd iperf-3.19 && \
+# Manual install of iperf3 to use latest version as ubuntu apt only has 3.16
+ENV IPERF_VERSION=3.19
+RUN wget https://downloads.es.net/pub/iperf/iperf-${IPERF_VERSION}.tar.gz
+RUN tar -xzf iperf-${IPERF_VERSION}.tar.gz && \
+cd iperf-${IPERF_VERSION} && \
 ./configure && \
 make && \
 make install

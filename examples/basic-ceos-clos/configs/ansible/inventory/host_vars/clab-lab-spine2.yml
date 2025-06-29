@@ -1,0 +1,42 @@
+---
+# Specific Device configuration
+#
+# Interfaces, IPs, Routing, etc.
+system:
+  type: "router"
+
+# Interfaces (Management already done by Containerlab)
+interfaces:
+  - if: "Loopback0"
+    desc: "Underlay Loopback"
+    ipv4: "10.0.0.12/32"
+    ipv6: "2001:db8:b2::1/128"
+  - if: "Ethernet1"
+    desc: "clab-lab-spine1:Ethernet1 --> clab-lab-leaf1:Ethernet2"
+    ipv6: "LLA"
+  - if: "Ethernet2"
+    desc: "clab-lab-spine1:Ethernet2 --> clab-lab-leaf2:Ethernet2"
+    ipv6: "LLA"
+  - if: "Ethernet3"
+    desc: "clab-lab-spine1:Ethernet3 --> clab-lab-leaf3:Ethernet2"
+    ipv6: "LLA"
+  - if: "Ethernet4"
+    desc: "clab-lab-spine1:Ethernet4 --> clab-lab-leaf4:Ethernet2"
+    ipv6: "LLA"
+
+# Routing
+bgp:
+  router_id: 10.0.0.12
+  type: "spine"
+  local_as: 65000
+  underlay_name: "PG_UNDERLAY"
+  overlay_name: "PG_OVERLAY"
+  listen:
+    underlay:
+      listen_range: fe80::/10
+      peer_filter: "LEAF_PF"
+    overlay:
+      listen_range: 10.0.0.0/24
+      peer_filter: "LEAF_PF"
+        
+
