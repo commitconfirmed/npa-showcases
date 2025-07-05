@@ -1,6 +1,11 @@
-# Intermediate Anycast
+# Basic cEOS CLOS
 
-A lab with a basic Tree setup to demonstrate Anycast routing and ECMP
+A lab with: 
+- A basic 2 Spine and 4 Leaf setup using unnumbered BGP with IPv6 LLAs
+- EVPN-VXLAN Overlay/Underlay
+- Two hosts with LACP configured under a Tenant
+
+Concepts: VXLAN, EVPN, BGP Unnumbered, Arista, EOS, Leaf, Spine, MLAG, ECMP
 
 - [Setup](#setup)
   - [Scripts](#scripts)

@@ -1,0 +1,71 @@
+#
+# Example naming definitions
+#
+RFC1918 = 10.0.0.0/8      # non-public
+          172.16.0.0/12   # non-public
+          192.168.0.0/16  # non-public
+
+LOOPBACK = 127.0.0.0/8  # loopback
+           ::1/128       # ipv6 loopback
+
+RFC_3330 = 169.254.0.0/16  # special use IPv4 addresses - netdeploy
+
+RFC_6598 = 100.64.0.0/10   # Shared Address Space
+
+LINKLOCAL = FE80::/10  # IPv6 link-local
+
+SITELOCAL = FEC0::/10    # Ipv6 Site-local
+
+MULTICAST = 224.0.0.0/4  # IP multicast
+            FF00::/8     # IPv6 multicast
+
+CLASS-E   = 240.0.0.0/4
+
+RESERVED = 0.0.0.0/8           # reserved
+           RFC1918
+           LOOPBACK
+           RFC_3330
+           RFC_6598
+           MULTICAST
+           CLASS-E
+           0000::/8            # reserved by IETF
+           0100::/8            # reserved by IETF
+           0200::/7            # reserved by IETF
+           0400::/6            # reserved by IETF
+           0800::/5            # reserved by IETF
+           1000::/4            # reserved by IETF
+           4000::/3            # reserved by IETF
+           6000::/3            # reserved by IETF
+           8000::/3            # reserved by IETF
+           A000::/3            # reserved by IETF
+           C000::/3            # reserved by IETF
+           E000::/4            # reserved by IETF
+           F000::/5            # reserved by IETF
+           F800::/6            # reserved by IETF
+           FC00::/7            # unique local unicast
+           FE00::/9            # reserved by IETF
+           LINKLOCAL           # link local unicast
+           SITELOCAL           # IPv6 site-local
+
+ANY = 0.0.0.0/0
+
+ANY_V6 = ::/0
+
+ANY_MIXED = ANY
+            ANY_V6
+
+GOOGLE_PUBLIC_DNS_ANYCAST = 8.8.4.4/32               # IPv4 Anycast
+                            8.8.8.8/32               # IPv4 Anycast
+                            2001:4860:4860::8844/128 # IPv6 Anycast
+                            2001:4860:4860::8888/128 # IPv6 Anycast
+
+#
+# Edge Network
+#
+
+VPN_HUB = 203.100.0.1/32
+SYD_WAN = 135.101.0.1/32
+MEL_WAN = 135.101.0.2/32
+
+REMOTE_OFFICES = SYD_WAN
+                 MEL_WAN

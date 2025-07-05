@@ -1,0 +1,9 @@
+DNS = 53/tcp  # transfers
+      53/udp  # queries
+HTTP = 80/tcp  
+       80/udp  # quic
+HTTPS = 443/tcp
+        443/udp  # quic
+IKE = 500/udp
+IPSEC = 4500/udp
+TRACEROUTE = 33434-33534/udp

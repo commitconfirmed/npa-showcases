@@ -1,0 +1,45 @@
+# A Basic Capirca lab
+name: lab
+
+mgmt:
+  network: management
+  ipv4-subnet: 172.20.0.0/24
+
+topology:
+  nodes:
+    # Ansible
+    ansible:
+      kind: linux
+      image: lab-ansible:latest
+      mgmt-ipv4: 172.20.0.100
+      binds:
+        - configs/ansible/inventory:/app/inventory:ro
+        - configs/ansible/pb-cfg-lab.yml:/app/pb-cfg-lab.yml:ro
+        - configs/ansible/roles:/app/roles:ro
+    # Capirca
+    capirca:
+      kind: linux
+      image: lab-capirca:latest
+      mgmt-ipv4: 172.20.0.101
+      binds:
+        - configs/capirca/policies:/app/policies:ro
+        - configs/capirca/def:/app/def:ro
+    # cRPD  
+    crpd1:
+      kind: juniper_crpd
+      image: crpd:latest
+      mgmt-ipv4: 172.20.0.11
+      exec:
+        - "ip addr add 10.0.0.0/31 dev eth1"
+        - "ip addr add 192.168.0.1 dev lo"
+        - "ip addr add fec0:0:0:1111::1/128 dev lo"
+    # cEOS
+    ceos1:
+      kind: arista_ceos
+      image: ceos:latest
+      mgmt-ipv4: 172.20.0.12
+      env:
+        CLAB_MGMT_VRF: MGMT
+
+  links:
+    - endpoints: ["crpd1:eth1", "ceos1:eth1"]

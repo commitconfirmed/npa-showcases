@@ -1,0 +1,25 @@
+header {
+  comment:: "Melbourne Branch Capirca outbound filter example"
+  target:: juniper mel-branch-outbound inet
+  target:: arista mel-branch-outbound extended
+}
+
+#include 'includes/deny-src-reserved.inc'
+
+term permit-ipsec-access {
+  comment:: "ENG-1024"
+  source-address:: MEL_WAN
+  destination-address:: VPN_HUB
+  protocol:: 50
+  action:: accept
+}
+term permit-ike-access {
+  comment:: "ENG-1024"
+  source-address:: MEL_WAN
+  destination-address:: VPN_HUB
+  protocol:: udp
+  destination-port:: IKE IPSEC
+  action:: accept
+}
+
+#include 'includes/branch-out.inc'

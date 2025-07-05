@@ -1,0 +1,25 @@
+header {
+  comment:: "Sydney Branch Capirca inbound filter example"
+  target:: juniper syd-branch-inbound inet
+  target:: arista syd-branch-inbound extended
+}
+
+#include 'includes/deny-src-reserved.inc'
+
+term permit-ipsec-access {
+  comment:: "ENG-2001"
+  source-address:: VPN_HUB
+  destination-address:: SYD_WAN
+  protocol:: 50
+  action:: accept
+}
+term permit-ike-access {
+  comment:: "ENG-2001"
+  source-address:: VPN_HUB
+  destination-address:: SYD_WAN
+  protocol:: udp
+  source-port:: IKE IPSEC
+  action:: accept
+}
+
+#include 'includes/branch-in.inc'

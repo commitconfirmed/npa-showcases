@@ -4,16 +4,16 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Install python and SSH server
 RUN apt-get update -y && apt-get install -y \
-python3 \
-python3-pip \
-iputils-ping \
-vim \
-openssh-server \
-sshpass \
-sudo \
-&& apt-get autoremove -y \
-&& apt-get clean -y \
-&& rm -rf /var/lib/apt/lists/*
+    python3 \
+    python3-pip \
+    iputils-ping \
+    vim \
+    openssh-server \
+    sshpass \
+    sudo \
+    && apt-get autoremove -y \
+    && apt-get clean -y \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install Ansible and:
 # - pynetbox for Netbox integration
@@ -23,28 +23,28 @@ sudo \
 # (yes i'm lazy and why do I need a venv in a docker image?)
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN pip3 install --upgrade \
-ansible \
-pynetbox \
-looseversion \
-jxmlease \
-xmltodict \
-junos-eznc \
-ansible-pylibssh
+    ansible \
+    pynetbox \
+    looseversion \
+    jxmlease \
+    xmltodict \
+    junos-eznc \
+    ansible-pylibssh
 
 # Configure an admin user with sudo access
 RUN groupadd -r admin && \ 
-useradd -rm -d /app -s /bin/bash -g admin -G sudo admin && \
-echo 'admin:admin' | chpasswd 
+    useradd -rm -d /app -s /bin/bash -g admin -G sudo admin && \
+    echo 'admin:admin' | chpasswd 
 
 RUN mkdir /var/run/sshd && \
-sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
-echo "export VISIBLE=now" >> /etc/profile
+    sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd && \
+    echo "export VISIBLE=now" >> /etc/profile
 
 USER admin
 
 # Create empty known_hosts file for SSH key importing by ansible playbook pb-import-ssh.yml
 RUN mkdir ~/.ssh && \
-touch ~/.ssh/known_hosts
+    touch ~/.ssh/known_hosts
 
 WORKDIR /app
 COPY --chown=admin:admin app /app

@@ -1,0 +1,14 @@
+---
+base_directory: ./policies
+definitions_directory: ./def
+output_directory: ./filters
+optimize: false
+recursive: true
+debug: false
+verbose: false
+ignore_directories:
+  - DEPRECATED
+  - def
+max_renderers: 10
+shade_check: true
+exp_info: 2
