@@ -11,6 +11,9 @@ sha256:70314310c219009aa903f9ce57f1eef4a72337f21dc3b778179724203c8a31f1
 ❯ sudo docker image load -i junos-routing-crpd-docker-amd64-23.2R1.13.tgz
 Loaded image: crpd:23.2R1.13
 ❯ sudo docker image tag crpd:23.2R1.13 crpd:latest
+❯ sudo docker load -i cJunosEvolved-25.2R1.8-EVO.tar.gz
+Loaded image: cjunosevolved:25.2R1.8-EVO
+❯ sudo docker image tag cjunosevolved:25.2R1.8-EVO cjunosevolved:latest
 ```
 
 If using your own .gitignore file make sure you ignore this folders contents!

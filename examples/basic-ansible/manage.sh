@@ -10,7 +10,7 @@ else
     case $1 in
         build)
         cd ../../containers/
-        ./build.sh lab-nornir
+        ./build.sh lab-ansible
         cd $current_dir
         echo "Note: This lab needs the Arista & Juniper container NOS images to be built manually!"
         ;;
@@ -19,7 +19,7 @@ else
         sudo containerlab deploy -t ./lab.clab.yml
         echo "Done. Sleeping for 5 seconds to allow the containers to fully boot"
         sleep 5
-        sudo docker exec -tu ansible -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
+        sudo docker exec -tu admin -w /app "clab-lab-ansible" ansible-playbook -i inventory/inventory.yml pb-import-ssh.yml
         ;;
         stop)
         echo "Stopping & cleaning up the lab"
