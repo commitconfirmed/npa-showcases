@@ -8,3 +8,4 @@ examples/*/clab-*
 # i.e. the Arista cEOS docker image
 images/**
 !images/README.md
+!images/import-crpd-ceos.sh

@@ -7,6 +7,11 @@
             "command": "cd /workspaces/npa-showcases && bash setup.sh",
         },
         {
+            "label": "Import uploaded cRPD and cEOS images",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/images && bash import-crpd-ceos.sh",
+        },
+        {
             "label": "basic-nornir: Build Lab",
             "type": "shell",
             "command": "cd /workspaces/npa-showcases/examples/basic-nornir && bash manage.sh build",
@@ -20,6 +25,21 @@
             "label": "basic-nornir: Stop Lab",
             "type": "shell",
             "command": "cd /workspaces/npa-showcases/examples/basic-nornir && bash manage.sh stop",
-        }
+        },
+        {
+            "label": "basic-ansible: Build Lab",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/examples/basic-ansible && bash manage.sh build",
+        },
+        {
+            "label": "basic-ansible: Run Lab",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/examples/basic-ansible && bash manage.sh run",
+        },
+        {
+            "label": "basic-ansible: Stop Lab",
+            "type": "shell",
+            "command": "cd /workspaces/npa-showcases/examples/basic-ansible && bash manage.sh stop",
+        },
     ]
 }

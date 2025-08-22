@@ -6,15 +6,16 @@ Here you will find a bunch of ready to go labs based on a wide variety of networ
 
 This is mostly just for my own personal learning and mentoring, but I have made it public in case it helps anyone else who may be in the same situation!
 
-- [Network Programmability and Automation showcases](#network-programmability-and-automation-showcases)
-  - [Setup](#setup)
-    - [Locally](#locally)
-    - [Codespaces](#codespaces)
-    - [Setup script](#setup-script)
-    - [NOS images](#nos-images)
-      - [NOS images in Codespaces](#nos-images-in-codespaces)
-  - [Design Brief](#design-brief)
-  - [Design Detail](#design-detail)
+There are also blog posts for some of these labs available at https://commitconfirmed.github.io/tags/npa-showcases/
+
+- [Setup](#setup)
+  - [Locally](#locally)
+  - [Codespaces](#codespaces)
+  - [Setup script](#setup-script)
+  - [NOS images](#nos-images)
+    - [NOS images in Codespaces](#nos-images-in-codespaces)
+- [Design Brief](#design-brief)
+- [Design Detail](#design-detail)
 
 ## Setup
 
@@ -50,14 +51,10 @@ To download these images, you will need to register an account (free) on the Ari
 From here, copy the images into the `./images` folder and load them, and pull the Nokia SRL image from the registry. Commands are below:
 
 ```bash
-❯ sudo docker image pull ghcr.io/nokia/srlinux
-Using default tag: latest
---snip--
-❯ sudo docker import images/cEOS64-lab-4.32.5.1M.tar.xz ceos:latest
-sha256:70314310c219009aa903f9ce57f1eef4a72337f21dc3b778179724203c8a31f1
-❯ sudo docker image load -i images/junos-routing-crpd-docker-amd64-23.2R1.13.tgz
-Loaded image: crpd:23.2R1.13
-❯ sudo docker image tag crpd:23.2R1.13 crpd:latest
+sudo docker image pull ghcr.io/nokia/srlinux
+sudo docker import cEOS64-lab-4.32.5.1M.tar.xz ceos:latest
+sudo docker image load -i junos-routing-crpd-docker-amd64-23.2R1.13.tgz
+sudo docker image tag crpd:23.2R1.13 crpd:latest
 ```
 
 When you have loaded/imported/pulled all the NOS images and tagged the Juniper CRPD image with latest, you should see something similar to the below when executing `sudo docker image list`
