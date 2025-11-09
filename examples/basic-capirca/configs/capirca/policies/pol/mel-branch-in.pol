@@ -1,7 +1,6 @@
 header {
   comment:: "Melbourne Branch Capirca inbound filter example"
-  target:: juniper mel-branch-inbound inet
-  target:: arista mel-branch-inbound extended
+  target:: ciscoasa
 }
 
 #include 'includes/deny-src-reserved.inc'
